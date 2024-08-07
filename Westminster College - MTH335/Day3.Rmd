@@ -1,0 +1,20 @@
+---
+title: "Day3class"
+output: pdf_document
+date: "2023-09-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r freq}
+grades <- c("A", "D", "C", "D", "C", "C", "C", "C", "F", "B")
+table(grades) # two ways to make a frequency table
+xtabs(~grades)
+```
+```{r rel}
+table(grades)/length(grades) # two ways to make a relative frequency table
+prop.table(table(grades))
+```
+

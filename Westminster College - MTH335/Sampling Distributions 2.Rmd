@@ -1,0 +1,56 @@
+---
+title: "Untitled"
+output: pdf_document
+date: "2023-11-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+N <- 6
+n <- 2
+pop <- 1:N
+rs <- expand.grid(Draw1 = pop, Draw2 = pop) #gives all possible random samples
+xbarN <- apply(rs, 1, mean)
+s2N <- apply(rs, 1, var)
+
+RSV <- cbind(rs, xbarN = xbarN, s2N = s2N)
+head(RSV, n = 3)
+
+fractions(xtabs(~xbarN)/36)
+fractions(xtabs(~s2N)/36)
+```
+
+
+```{r}
+N <- 6
+n <- 2
+draw <- c("Draw1", "Draw2")
+SRS <- srs(1:N, n) #gives all possible samples
+dimnames(SRS) <- list(NULL, draw)
+xbarn <- apply(SRS, 1, mean)
+s2n <- apply(SRS, 1, var)
+SRSV <- cbind(SRS, xbarn = xbarn, s2n = s2n)
+
+fractions(xtabs(~xbarn)/15)
+fractions(xtabs(~s2n)/15)
+```
+
+```{r}
+t3 <- fractions(xtabs(~xbarn)/15) #sampling dist. of xbarn
+t4 <- fractions(xtabs(~s2n)/15) # sampling dist. or s2
+xbar <- as.numeric(names(t3))
+s2 <- as.numeric(names(t4))
+mu_xbarn <- sum(xbar*t3)
+mu_xbarn
+
+var_xbarn <- sum((xbar-mu_xbarn)^2*t3)
+var_xbarn
+
+mu_s2n <- sum(s2*t4)
+mu_s2n
+```
+

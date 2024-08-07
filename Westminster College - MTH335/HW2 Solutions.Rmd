@@ -1,0 +1,170 @@
+---
+title: "HW 2"
+output: pdf_document
+date: "2023-10-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+2)  2.10 Number 6 \## Consider the dataframe PAMTEMP from PASWR2 package, which contains temperature and precipitation for Pamplona, Spain, from January 1, 1990, to December 31, 2010.
+
+```{=html}
+<!-- -->
+```
+a)  Create side-by-side violin plots of the variable tmean for each month. Make sure the level o tmonth is corrrect.
+
+```{r}
+levels(PAMTEMP$month)
+PAMTEMP$month <- factor(PAMTEMP$month, levels = month.abb[1:12])
+levels(PAMTEMP$month)
+
+ggplot(data = PAMTEMP) +
+  geom_violin(aes(month, tmean), fill = "cyan")
+  
+```
+
+b)  Create side-by-side plots of the variable tmean for each year.
+
+```{r}
+summary(PAMTEMP$year)
+
+ggplot(data = PAMTEMP, aes(year, tmean)) + 
+  geom_violin(aes(group = cut_width(year, 1)), fill = "grey")
+```
+
+c)  Find the date for the minimum value of tmean.
+
+```{r}
+PAMTEMP[which.min(PAMTEMP$tmean),]
+```
+
+d)  Find the date for the maximum value of tmean.
+
+```{r}
+PAMTEMP[which.max(PAMTEMP$tmean),]
+```
+
+e)  Find the date for the maximum value of precip.
+
+```{r}
+PAMTEMP[which.max(PAMTEMP$precip),]
+```
+
+f)  How many days have reported a tmax value greater than 38 degrees Celcius?
+
+```{r}
+a <- with(PAMTEMP, tmax[tmax > 38])
+print(a)
+length(a)
+
+```
+
+g)  Create a barplot showing total precipitation by month for January 1, 1990 to December 31, 2010.
+
+```{r}
+weather <- ddply(PAMTEMP, .(month), summarise,
+                 sum.precip = sum(precip))
+
+ggplot(data = weather, aes(x = month, y = sum.precip)) +
+  geom_col()
+
+```
+
+h)  Create a barplot showing total precipitation by year.
+
+```{r}
+weather2 <- ddply(PAMTEMP, .(year), summarise,
+                 sum.precip = sum(precip))
+
+ggplot(data = weather2, aes(x = year, y = sum.precip)) +
+  geom_col()
+```
+
+i)  Create a graph showing the maximum temperature versus year and the minimum temperature versus year. Does the graph suggest temperatures are becoming more extreme over time?
+
+```{r}
+mintemp <- ddply(PAMTEMP, .(year), summarise,
+                 min.temp = min(tmin))
+
+p1 <- ggplot(data = mintemp, aes(x = year, y = min.temp)) +
+  geom_point()
+
+maxtemp <- ddply(PAMTEMP, .(year), summarise,
+                 max.temp = max(tmax))
+
+p2 <- ggplot(data = PAMTEMP, aes(group = year, y = tmax)) +
+  geom_boxplot()
+plot_grid(p1, p2)
+```
+
+9) CARS2004
+a) Compute the total number of cars per 1000 inhabitants in each country, and store the result in an object named total.cars. Determine total number of known automobile fatalities in 2004 divided by the total number of cars for each country and store the result in an object named death.rate. 
+```{r}
+cars <- CARS2004
+cars$total.cars <- CARS2004$cars
+cars$death.rate <- CARS2004$deaths/cars$total.cars
+```
+
+b) Create a barplot showing the automobile death rate for each of the European Union member countries. Make the bars increase in magnitude so that the countries with the smallest automobile death rates appear first. 
+```{r}
+ggplot(data = cars, aes(x = reorder(country,+death.rate), y = death.rate)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle=45))
+```
+
+c) Which country has the lowest automobile death rate? Which country has the highest?
+```{r}
+cars[which.max(cars$death.rate),]
+cars[which.min(cars$death.rate),]
+```
+
+d) Create a scatterplot of population versus total.cars. How would you characterize this relationship. 
+```{r}
+ggplot(data = cars, aes(x = population, y = total.cars)) +
+  geom_point()
+```
+
+e) Find the elast squares estimate for regressing population on total.cars. Superimpose the least squares line on the scatterplot from (d). What population does the least squares model predict for a country with total.cars values of 19224.630? Find the difference between the population predicted from the least squares model and the actual population for the country with total.cars values. 
+```{r}
+lmmodel <- lm(cars$population~cars$total.cars)
+lmmodel
+ggplot(data = cars, aes(x = total.cars, y = population)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+val <- lmmodel$coefficients[1] + lmmodel$coefficients[2]*19224.630
+val
+a <- with(cars, population[total.cars == 19224.630])
+a
+cars[which.max(cars$cars),]
+
+```
+f) Create a scatterplot of total.cars versus death.rate. How would you characterize this relationship>
+```{r}
+ggplot(data = cars, aes(x = death.rate, y = total.cars)) +
+  geom_point()
+```
+g) Compute Spearman's rank correlation coefficient of total.cars and death.rate. 
+```{r}
+cor(cars$total.cars, cars$death.rate, method = "spearman")
+```
+
+h) Plot the logarithm of total.cars versus the logarithm of death.rate. 
+```{r}
+ggplot(data = cars, aes(x = log(death.rate), y = log(total.cars))) +
+  geom_point()
+```
+
+i) What are the least squares estimates for the regression of log(total.cars) on log(death.rate). What total number of cars does the least squares line model predict for a country with log(death.rate) value -3.769252. 
+```{r}
+ggplot(data = cars, aes(x = log(death.rate), y = log(total.cars))) +
+  geom_point() +
+  geom_smooth(method = "lm")
+fit <- lm(log(total.cars)~log(death.rate))
+val <- fit$coefficients[1] + fit$coefficients[2]*(-3.769252)
+val
+
+```
+

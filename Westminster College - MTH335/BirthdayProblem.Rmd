@@ -1,0 +1,24 @@
+---
+title: "BirthdayProblem"
+output: pdf_document
+date: "2023-10-13"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+m <- seq(10,50,5)
+PE <- function(m){c(Students = m, prob = 1-prod((365:(365-m+1))/365))}
+t(sapply(m,PE))
+```
+```{r}
+m <- 1:60
+p <- numeric(60) #initialize a vector of zeros of size 60
+for(i in m){
+  q = prod((365:(365-i+1))/365)
+  p[i] = 1-q}
+plot(m,p, col = "skyblue3", pch = 19, ylab = "Probability of one shared birthdays", xlab = "m = number of students")
+```
+

@@ -1,0 +1,183 @@
+---
+title: "MTH 335 Exam 1"
+author: Manny Fomundam
+output: pdf_document
+date: "2023-10-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Answer the following questions. Please answer each question with full sentences with necessary code and/or graphics to support your answers. 
+
+Question 1: "Money can't buy happiness"
+a) Load the data located on D2L entitled income.data.csv. 
+```{r}
+setwd("C:/Users/emman/OneDrive - Westminster College/Documents/MTH 335 01/Westminster College - MTH335/")
+data <- read.csv("income.data.csv")
+head(data)
+```
+
+b) How would you describe the relationship between income and happiness?
+
+This shows that people who earn more typically have higher levels of happiness. According to the data, a person's general happiness is significantly influenced by their income.
+```{r}
+# Load the ggplot2 library
+library(ggplot2)
+
+# Create a scatter plot
+ggplot(data, aes(x = income, y = happiness)) +
+  geom_point() +  # Add points for each data point
+  labs(x = "Income", y = "Happiness", title = "Money can't buy happiness?")
+```
+c) Compute the correlation coefficient for income and happiness. What does this tell you about the relationship between these two variables?
+
+The scatter-plot amply demonstrates the positive relationship between happiness and money. Happiness levels are observed to rise along with money.
+```{r}
+# Compute the correlation coefficient
+correlation <- cor(data$income, data$happiness)
+
+# Print the correlation coefficient
+print(correlation)
+```
+d) Find the estimates for the ordinary least squares regression line (and give the full equation for the line) for happiness predicted by income. Superimpose the line on a scatterplot of the data. 
+```{r}
+# Fit the linear regression model
+model <- lm(happiness ~ income, data = data)
+
+# Extract the coefficients (intercept and slope)
+intercept <- coef(model)[1]
+slope <- coef(model)[2]
+
+# Create the equation of the regression line
+equation <- paste("Happiness =", round(intercept, 2), "+", round(slope, 2), "Income")
+
+# Print the equation of the regression line
+print("Regression Equation:")
+print(equation)
+
+# Create a scatter plot with the regression line
+ggplot(data, aes(x = income, y = happiness)) +
+  geom_point() +  # Add points for each data point
+  geom_abline(intercept = intercept, slope = slope, color = "red") +  # Add the regression line
+  labs(x = "Income", y = "Happiness", title = "Regression Line: Money can't buy happiness?")
+```
+
+e) The median household income in New Wilmington, PA is about $68,000. Use the line computed in question 4 to determine the happiness level predicted by the median household income of New Wilmington. Hint: you may have to change units. Use your prediction to compare to the data point in row 470. How close is this estimate? 
+
+The predicted estimate (5.058284) from the actual estimate (4.985367) actually very close as they have a difference of 0.07291729.
+```{r}
+# Median household income in New Wilmington, PA
+median_income <- 6.8 #6.8 represents 68000
+
+# Predicted happiness using the regression line
+predicted_happiness <- intercept + slope * median_income
+
+# Print the predicted happiness
+print("Predicted Happiness for Median Income:")
+print(predicted_happiness)
+
+
+
+# Extract happiness for the data point in row 470
+actual_happiness <- data$happiness[470]
+
+# Print the actual happiness
+print("Actual Happiness for Data Point in Row 470:")
+print(actual_happiness)
+
+# Calculate the difference between predicted and actual happiness
+difference <- abs(predicted_happiness - actual_happiness)
+
+# Print the difference
+print("Difference between Predicted and Actual Happiness:")
+print(difference)
+```
+
+f) Overall, would you say that "money can't buy happiness"? 
+I would say money does buy happiness based off this data.
+
+Question 2: Exploring data
+a) Load the diamonds data set from the ggplot2 package. Describe each of the variables as numerical or categorical. For numerical variables, describe each variable as continuous or discrete, and for categorical variables, describe each variable as ordinal or nominal.
+
+carat 
+  Type: Numerical, Continuous
+cut 
+  Type: Categorical, Ordinal
+color 
+  Type: Categorical, Ordinal
+clarity 
+  Type: Categorical, Ordinal
+depth
+  Type: Numerical, Continuous
+table
+  Type: Numerical, Discrete
+price
+  Type: Numerical, Continuous
+x
+  Type: Numerical, Continuous
+y
+  Type: Numerical, Continuous
+z
+  Type: Numerical, Continuous
+```{r}
+#load the ggplot2 package
+library(ggplot2)
+
+#Load the "diamonds" dataset
+data("diamonds")
+```
+
+b) Calculate the mean and median carat of a diamond. 
+```{r}
+# Calculate the mean carat
+mean_carat <- mean(diamonds$carat)
+
+# Calculate the median carat
+median_carat <- median(diamonds$carat)
+
+# Print the mean and median carat
+print("Mean Carat:")
+print(mean_carat)
+
+print("Median Carat:")
+print(median_carat)
+```
+
+c) Suppose you want to determine the most popular cut of diamond. Create a graphic that looks at the cut vs. count to determine the most popular cut. 
+```{r}
+library(ggplot2)
+
+# Create a bar plot of cut vs. count
+ggplot(diamonds, aes(x = cut)) +
+  geom_bar() +
+  labs(x = "Cut", y = "Count", title = "Count of Diamonds by Cut")
+```
+
+d) Within the cut of the diamond, suppose you want to know how clarity is related to each cut. Build onto your graphic from part (c) to include information about clarity in each cut. 
+```{r}
+library(ggplot2)
+
+# Create a grouped bar plot of cut vs. count, colored by clarity
+ggplot(diamonds, aes(x = cut, fill = clarity)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Cut", y = "Count", title = "Count of Diamonds by Cut and Clarity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+e) Suppose you want to investigate which cut is the most popular for IF clarity (highest or best clarity). Create a visual to compare IF clarity in relation to cut. What conclusions can you make based on this visual? 
+
+Based on the visual, ideal has the most number IF clarity which is the best clarity which can be assumed that its a very popular cut for consumers.
+```{r}
+library(ggplot2)
+
+# Filter the data for diamonds with IF clarity
+diamonds_IF <- diamonds[diamonds$clarity == "IF", ]
+
+# Create a bar plot of cut vs. count for diamonds with IF clarity
+ggplot(diamonds_IF, aes(x = cut)) +
+  geom_bar() +
+  labs(x = "Cut", y = "Count", title = "Count of Diamonds with IF Clarity by Cut") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+

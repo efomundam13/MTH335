@@ -1,0 +1,498 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={MTH 335 Exam 1},
+  pdfauthor={Manny Fomundam},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{MTH 335 Exam 1}
+\author{Manny Fomundam}
+\date{2023-10-08}
+
+\begin{document}
+\maketitle
+
+\hypertarget{answer-the-following-questions.-please-answer-each-question-with-full-sentences-with-necessary-code-andor-graphics-to-support-your-answers.}{%
+\subsection{Answer the following questions. Please answer each question
+with full sentences with necessary code and/or graphics to support your
+answers.}\label{answer-the-following-questions.-please-answer-each-question-with-full-sentences-with-necessary-code-andor-graphics-to-support-your-answers.}}
+
+Question 1: ``Money can't buy happiness'' a) Load the data located on
+D2L entitled income.data.csv.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"C:/Users/emman/OneDrive {-} Westminster College/Documents/MTH 335 01/Westminster College {-} MTH335/"}\NormalTok{)}
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"income.data.csv"}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   X   income happiness
+## 1 1 3.862647  2.314489
+## 2 2 4.979381  3.433490
+## 3 3 4.923957  4.599373
+## 4 4 3.214372  2.791114
+## 5 5 7.196409  5.596398
+## 6 6 3.729643  2.458556
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  How would you describe the relationship between income and happiness?
+\end{enumerate}
+
+This shows that people who earn more typically have higher levels of
+happiness. According to the data, a person's general happiness is
+significantly influenced by their income.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load the ggplot2 library}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\CommentTok{\# Create a scatter plot}
+\FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ income, }\AttributeTok{y =}\NormalTok{ happiness)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}  \CommentTok{\# Add points for each data point}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Income"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Happiness"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Money can\textquotesingle{}t buy happiness?"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Exam1_files/figure-latex/unnamed-chunk-2-1.pdf} c)
+Compute the correlation coefficient for income and happiness. What does
+this tell you about the relationship between these two variables?
+
+The scatter-plot amply demonstrates the positive relationship between
+happiness and money. Happiness levels are observed to rise along with
+money.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compute the correlation coefficient}
+\NormalTok{correlation }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{income, data}\SpecialCharTok{$}\NormalTok{happiness)}
+
+\CommentTok{\# Print the correlation coefficient}
+\FunctionTok{print}\NormalTok{(correlation)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8656337
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Find the estimates for the ordinary least squares regression line (and
+  give the full equation for the line) for happiness predicted by
+  income. Superimpose the line on a scatterplot of the data.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Fit the linear regression model}
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(happiness }\SpecialCharTok{\textasciitilde{}}\NormalTok{ income, }\AttributeTok{data =}\NormalTok{ data)}
+
+\CommentTok{\# Extract the coefficients (intercept and slope)}
+\NormalTok{intercept }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model)[}\DecValTok{1}\NormalTok{]}
+\NormalTok{slope }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model)[}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{\# Create the equation of the regression line}
+\NormalTok{equation }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"Happiness ="}\NormalTok{, }\FunctionTok{round}\NormalTok{(intercept, }\DecValTok{2}\NormalTok{), }\StringTok{"+"}\NormalTok{, }\FunctionTok{round}\NormalTok{(slope, }\DecValTok{2}\NormalTok{), }\StringTok{"Income"}\NormalTok{)}
+
+\CommentTok{\# Print the equation of the regression line}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Regression Equation:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Regression Equation:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(equation)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Happiness = 0.2 + 0.71 Income"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a scatter plot with the regression line}
+\FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ income, }\AttributeTok{y =}\NormalTok{ happiness)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}  \CommentTok{\# Add points for each data point}
+  \FunctionTok{geom\_abline}\NormalTok{(}\AttributeTok{intercept =}\NormalTok{ intercept, }\AttributeTok{slope =}\NormalTok{ slope, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Add the regression line}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Income"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Happiness"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Regression Line: Money can\textquotesingle{}t buy happiness?"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Exam1_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  The median household income in New Wilmington, PA is about \$68,000.
+  Use the line computed in question 4 to determine the happiness level
+  predicted by the median household income of New Wilmington. Hint: you
+  may have to change units. Use your prediction to compare to the data
+  point in row 470. How close is this estimate?
+\end{enumerate}
+
+The predicted estimate (5.058284) from the actual estimate (4.985367)
+actually very close as they have a difference of 0.07291729.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Median household income in New Wilmington, PA}
+\NormalTok{median\_income }\OtherTok{\textless{}{-}} \FloatTok{6.8} \CommentTok{\#6.8 represents 68000}
+
+\CommentTok{\# Predicted happiness using the regression line}
+\NormalTok{predicted\_happiness }\OtherTok{\textless{}{-}}\NormalTok{ intercept }\SpecialCharTok{+}\NormalTok{ slope }\SpecialCharTok{*}\NormalTok{ median\_income}
+
+\CommentTok{\# Print the predicted happiness}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Predicted Happiness for Median Income:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Predicted Happiness for Median Income:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(predicted\_happiness)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (Intercept) 
+##    5.058284
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Extract happiness for the data point in row 470}
+\NormalTok{actual\_happiness }\OtherTok{\textless{}{-}}\NormalTok{ data}\SpecialCharTok{$}\NormalTok{happiness[}\DecValTok{470}\NormalTok{]}
+
+\CommentTok{\# Print the actual happiness}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Actual Happiness for Data Point in Row 470:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Actual Happiness for Data Point in Row 470:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(actual\_happiness)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.985367
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate the difference between predicted and actual happiness}
+\NormalTok{difference }\OtherTok{\textless{}{-}} \FunctionTok{abs}\NormalTok{(predicted\_happiness }\SpecialCharTok{{-}}\NormalTok{ actual\_happiness)}
+
+\CommentTok{\# Print the difference}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Difference between Predicted and Actual Happiness:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Difference between Predicted and Actual Happiness:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(difference)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (Intercept) 
+##  0.07291729
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{5}
+\tightlist
+\item
+  Overall, would you say that ``money can't buy happiness''? I would say
+  money does buy happiness based off this data.
+\end{enumerate}
+
+Question 2: Exploring data a) Load the diamonds data set from the
+ggplot2 package. Describe each of the variables as numerical or
+categorical. For numerical variables, describe each variable as
+continuous or discrete, and for categorical variables, describe each
+variable as ordinal or nominal.
+
+carat Type: Numerical, Continuous cut Type: Categorical, Ordinal color
+Type: Categorical, Ordinal clarity Type: Categorical, Ordinal depth
+Type: Numerical, Continuous table Type: Numerical, Discrete price Type:
+Numerical, Continuous x Type: Numerical, Continuous y Type: Numerical,
+Continuous z Type: Numerical, Continuous
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#load the ggplot2 package}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\CommentTok{\#Load the "diamonds" dataset}
+\FunctionTok{data}\NormalTok{(}\StringTok{"diamonds"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Calculate the mean and median carat of a diamond.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate the mean carat}
+\NormalTok{mean\_carat }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(diamonds}\SpecialCharTok{$}\NormalTok{carat)}
+
+\CommentTok{\# Calculate the median carat}
+\NormalTok{median\_carat }\OtherTok{\textless{}{-}} \FunctionTok{median}\NormalTok{(diamonds}\SpecialCharTok{$}\NormalTok{carat)}
+
+\CommentTok{\# Print the mean and median carat}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Mean Carat:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Mean Carat:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(mean\_carat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7979397
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"Median Carat:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Median Carat:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(median\_carat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Suppose you want to determine the most popular cut of diamond. Create
+  a graphic that looks at the cut vs.~count to determine the most
+  popular cut.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\CommentTok{\# Create a bar plot of cut vs. count}
+\FunctionTok{ggplot}\NormalTok{(diamonds, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cut)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Cut"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Count"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Count of Diamonds by Cut"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Exam1_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Within the cut of the diamond, suppose you want to know how clarity is
+  related to each cut. Build onto your graphic from part (c) to include
+  information about clarity in each cut.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\CommentTok{\# Create a grouped bar plot of cut vs. count, colored by clarity}
+\FunctionTok{ggplot}\NormalTok{(diamonds, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cut, }\AttributeTok{fill =}\NormalTok{ clarity)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Cut"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Count"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Count of Diamonds by Cut and Clarity"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Exam1_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Suppose you want to investigate which cut is the most popular for IF
+  clarity (highest or best clarity). Create a visual to compare IF
+  clarity in relation to cut. What conclusions can you make based on
+  this visual?
+\end{enumerate}
+
+Based on the visual, ideal has the most number IF clarity which is the
+best clarity which can be assumed that its a very popular cut for
+consumers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\CommentTok{\# Filter the data for diamonds with IF clarity}
+\NormalTok{diamonds\_IF }\OtherTok{\textless{}{-}}\NormalTok{ diamonds[diamonds}\SpecialCharTok{$}\NormalTok{clarity }\SpecialCharTok{==} \StringTok{"IF"}\NormalTok{, ]}
+
+\CommentTok{\# Create a bar plot of cut vs. count for diamonds with IF clarity}
+\FunctionTok{ggplot}\NormalTok{(diamonds\_IF, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ cut)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Cut"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Count"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Count of Diamonds with IF Clarity by Cut"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Exam1_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\end{document}

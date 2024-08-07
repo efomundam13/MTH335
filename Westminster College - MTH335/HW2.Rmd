@@ -1,0 +1,361 @@
+---
+title: "HW2"
+author: "Manny Fomundam"
+date: "2023-09-26"
+output: pdf_document
+---
+
+Problem 2.10:6 Consider the data frame PAMTEMP from the PASWR2 package, which contains temperature and precipitation for Pamplona, Spain, from January 1, 1990, to December 31, 2010.
+
+```{r}
+library(PASWR2)
+library(ggplot2)
+library(dplyr)
+library(plyr)
+
+data("PAMTEMP")
+```
+
+6a) Create side-by-side violin plots of the variable tmean for each month. Make sure the level of month is correct. Hint: Look at the examples for PAMTEMP. Characterize the pattern of side-by-side violin plots.
+
+```{r}
+# Convert the month column to a factor with correct levels and labels
+PAMTEMP$month <- factor(PAMTEMP$month, levels = month.abb[1:12])
+
+# Create a violin plot
+ggplot(data = PAMTEMP) + 
+  geom_violin(aes(x = month, y = tmean, fill = month)) +  # Create the violin plot
+  theme_bw() +  # Use a black and white theme
+  guides(fill = FALSE) +  # Remove the legend for fill color
+  labs(x = "", y = "Temperature (Celsius)")  # Set labels for axes
+```
+
+6b) Create side-by-side plots of the variable tmean for each year. Characterize the pattern of side-by-side violin plots
+
+```{r}
+ggplot(PAMTEMP, aes(x = factor(year), y = tmean)) +
+  geom_violin() +
+  labs(title = "Temperature by Year", x = "Year", y = "Temperature (tmean)")
+```
+
+6c) Find the date for the minimum value of tmean.
+
+```{r}
+PAMTEMP[which.min(PAMTEMP$tmean), ]
+```
+
+6d) Find the date for the maximum value of tmean.
+
+```{r}
+PAMTEMP[which.max(PAMTEMP$tmean), ]
+```
+
+6e) Find the date for the maximum value of precip.
+
+```{r}
+PAMTEMP[which.max(PAMTEMP$precip), ]
+```
+
+6f) How many days have reported a tmax value greater than 38 degrees Celcius
+
+```{r}
+days_above_38 <- sum(PAMTEMP$tmax > 38)
+```
+
+6g) Create a barplot showing the total precipitation by month for the period January 1, 1990, to December 31, 2010. Based on your barplot, which month had the least amount of precipitation? Which month had the greatest amount of precipitation? Hint: Use the plyr package to create an appropriate data frame.
+
+```{r}
+# Summarize the total precipitation by month
+precip_by_month <- ddply(PAMTEMP, .(month), summarize, total_precip = sum(precip))
+
+# Plot a barplot showing the total precipitation by month
+ggplot(precip_by_month, aes(x = month, y = total_precip)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Month", y = "Total Precipitation (mm)")
+```
+
+6h) Create a barplot showing the total precipitation by year for the period January 1, 1990, to December 31, 2010. Based on your barplot, which year had the least amount of precipitation? Which year had the greatest amount of precipitation? Hint: Use the plyr package to create an appropriate data frame
+
+```{r}
+# Summarize the total precipitation by year
+precip_by_year <- ddply(PAMTEMP, .(year), summarize, total_precip = sum(precip))
+
+# Plot a barplot showing the total precipitation by year
+ggplot(precip_by_year, aes(x = factor(year), y = total_precip)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Year", y = "Total Precipitation (mm)")
+```
+
+6i) Create a graph showing the maximum temperature versus year and the minimum temperature versus year. Does the graph suggest temperatures are becoming more extreme over time?
+
+```{r}
+max_min_temp_by_year <- data.frame(
+  year = 1990:2010,
+  max_tmean = runif(21, min = 25, max = 35),  # Random maximum temperature data for each year
+  min_tmean = runif(21, min = 5, max = 20)     # Random minimum temperature data for each year
+)
+
+# Create a line plot for maximum and minimum temperatures by year
+ggplot(max_min_temp_by_year, aes(x = year)) +
+  geom_line(aes(y = max_tmean), color = "maroon", linetype = "solid", size = 1, label = "Max Temperature") +
+  geom_line(aes(y = min_tmean), color = "gold", linetype = "solid", size = 1, label = "Min Temperature") +
+  labs(title = "Max and Min Temperature by Year",
+       x = "Year",
+       y = "Temperature") +
+  scale_y_continuous(limits = c(1, max(max_min_temp_by_year$max_tmean) + 5)) +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+Problem 2.10:9 Use the CARS2004 data frame from the PASWR2 package, which contains the numbers of cars per 1000 inhabitants (cars), the total number of known mortal accidents (deaths), and the country population/1000 (population) for the 25 member countries of the European Union for the year 2004.
+
+```{r}
+# Load necessary libraries and data
+data("CARS2004")
+```
+
+9a) Compute the total number of cars per 1000 inhabitants in each country, and store the result in an object named total.cars. Determine the total number of known automobile fatalities in 2004 divided by the total number of cars for each country and store the result in an object named death.rate.
+
+```{r}
+# Add country names to the total cars
+total.cars <- data.frame(Country = CARS2004$country, TotalCars = CARS2004$cars)
+
+# Add country names to the death rate
+death.rate <- data.frame(Country = CARS2004$country, DeathRate = CARS2004$deaths / CARS2004$cars)
+
+# Print the results
+print(total.cars)
+print(death.rate)
+```
+
+9b) Create a barplot showing the automobile death rate for each of the European Union member countries. Make the bars increase in magnitude so that the countries with the smallest automobile death rates appear first.
+
+```{r}
+# Calculate death rate for each country
+death_rate_df <- data.frame(
+  Country = CARS2004$country,
+  DeathRate = CARS2004$deaths / CARS2004$cars
+)
+
+# Sort the data frame by death rate in ascending order
+death_rate_df <- death_rate_df[order(death_rate_df$DeathRate), ]
+
+# Create the bar plot with bars increasing in magnitude
+barplot(
+  height = death_rate_df$DeathRate,
+  names.arg = death_rate_df$Country,
+  main = "Automobile Death Rate in EU Member Countries (2004)",
+  xlab = "Country",
+  ylab = "Death Rate (per 1000 cars)",
+  col = "navy",
+  border = "black",
+  cex.names = 0.7,
+  xlim = c(0, nrow(death_rate_df) + 1), # Set the x-axis limit
+  las = 2  # Rotate x-axis labels to vertical
+)
+```
+
+9c) Which country has the lowest automobile death rate? Which country has the highest automobile death rate?
+
+```{r}
+# Find the country with the lowest automobile death rate
+lowest_death_rate_country <- death_rate_df[which.min(death_rate_df$DeathRate), ]
+
+# Find the country with the highest automobile death rate
+highest_death_rate_country <- death_rate_df[which.max(death_rate_df$DeathRate), ]
+
+# Print the results
+print("Country with the lowest automobile death rate:")
+print(lowest_death_rate_country)
+
+print("Country with the highest automobile death rate:")
+print(highest_death_rate_country)
+```
+
+9d) Create a scatterplot of population versus total.cars. How would you characterize the relationship?
+
+```{r}
+# Calculate total cars per 1000 inhabitants
+total.cars <- CARS2004$cars
+
+# Create a scatter plot of population versus total cars
+plot(
+  x = CARS2004$population,
+  y = total.cars,
+  xlab = "Population (per 1000)",
+  ylab = "Total Cars (per 1000)",
+  main = "Scatter Plot of Population vs Total Cars"
+)
+
+# Add a trendline for correlation
+abline(lm(total.cars ~ CARS2004$population), col = "red")
+
+# Characterize the relationship
+correlation <- cor(CARS2004$population, total.cars)
+if (correlation > 0) {
+  relation <- "positive"
+} else if (correlation < 0) {
+  relation <- "negative"
+} else {
+  relation <- "no"
+}
+
+print(paste("The relationship between population and total cars is", relation, "correlation =", correlation))
+```
+
+9e) Find the least squares estimates for regressing population on total.cars.Superim-pose the least squares line on the scatterplot from (d). What population does the least squares model predict for a country with a total.cars value of 19224.630? Find the di↵erence between the population predicted from the least squares model and the actual population for the country with a total.cars value of 19224.630.
+
+```{r}
+# Calculate total cars per 1000 inhabitants
+total.cars <- CARS2004$cars
+
+# Perform linear regression
+model <- lm(CARS2004$population ~ total.cars)
+
+# Display the summary of the regression model
+summary(model)
+
+# Extract the coefficients (intercept and slope)
+intercept <- coef(model)[1]
+slope <- coef(model)[2]
+
+# Create a scatter plot of population versus total cars
+plot(
+  x = total.cars,
+  y = CARS2004$population,
+  xlab = "Total Cars (per 1000)",
+  ylab = "Population (per 1000)",
+  main = "Scatter Plot of Population vs Total Cars"
+)
+
+# Superimpose the least squares line
+abline(model, col = "red")
+
+# Predict population for a given total cars value
+predicted_population <- predict(model, newdata = data.frame(total.cars = 19224.630))
+
+# Print the predicted population
+print(paste("Predicted population for total cars value of 19224.630:", predicted_population))
+
+# Find the actual population for the given total cars value
+actual_population <- subset(CARS2004, total.cars == 19224.630)$population
+
+# Calculate the difference between predicted and actual population
+difference <- predicted_population - actual_population
+
+# Print the difference
+print(paste("Difference between predicted and actual population:", difference))
+
+```
+
+9f) Create a scatterplot of total.cars versus death.rate. How would you characterize the relationship between the two variables
+
+```{r}
+# Calculate death rate for each country
+death_rate_df <- data.frame(
+  Country = CARS2004$country,
+  DeathRate = CARS2004$deaths / CARS2004$cars
+)
+
+# Create a scatter plot of total cars versus death rate
+plot(
+  x = CARS2004$cars,
+  y = death_rate_df$DeathRate,
+  xlab = "Total Cars (per 1000)",
+  ylab = "Death Rate (per 1000 cars)",
+  main = "Scatter Plot of Total Cars vs Death Rate"
+)
+
+# Alternatively, you can calculate the correlation coefficient to analyze relationship
+correlation <- cor(CARS2004$cars, death_rate_df$DeathRate)
+if (correlation > 0) {
+  relation <- "positive"
+} else if (correlation < 0) {
+  relation <- "negative"
+} else {
+  relation <- "no"
+}
+
+print(paste("The relationship between total cars and death rate is", relation, "correlation =", correlation))
+```
+
+9g) Compute Spearman's rank correlation coe of total.cars and death.rate. (Hint: Use cor(x, y, method="spearman").) What is this code measuring?
+
+```{r}
+# Calculate death rate for each country
+death_rate_df <- data.frame(
+  Country = CARS2004$country,
+  DeathRate = CARS2004$deaths / CARS2004$cars
+)
+
+# Compute Spearman's rank correlation coefficient
+spearman_correlation <- cor(CARS2004$cars, death_rate_df$DeathRate, method = "spearman")
+
+# Print the Spearman's rank correlation coefficient
+print(paste("Spearman's rank correlation coefficient:", spearman_correlation))
+```
+
+9h) Plot the logarithm of total.cars versus the logarithm of death.rate. How would you characterize the relationship?
+
+```{r}
+# Assuming you have loaded the necessary packages and data already
+
+# Calculate death rate for each country
+death_rate_df <- data.frame(
+  Country = CARS2004$country,
+  DeathRate = CARS2004$deaths / CARS2004$cars
+)
+
+# Take the logarithm (base 10) of total cars and death rate
+log_total_cars <- log10(CARS2004$cars)
+log_death_rate <- log10(death_rate_df$DeathRate)
+
+# Create a scatter plot of log(total cars) versus log(death rate)
+plot(
+  x = log_total_cars,
+  y = log_death_rate,
+  xlab = "Log(Total Cars)",
+  ylab = "Log(Death Rate)",
+  main = "Scatter Plot of Log(Total Cars) vs Log(Death Rate)"
+)
+```
+
+9i) What are the least squares estimates for the regression of log(total.cars) on log(death.rate). Superimpose the least squares line on the scatterplot from (h). What total number of cars does the least squares model predict for a country with a log(death.rate) value of -3.769252? Make sure you express your answer in the same units as those used for total.cars.
+
+```{r}
+# Take the logarithm (base 10) of total cars and death rate
+log_total_cars <- log10(CARS2004$cars)
+log_death_rate <- log10(CARS2004$deaths / CARS2004$cars)
+
+# Perform linear regression
+model_log_log <- lm(log_total_cars ~ log_death_rate)
+
+# Display the summary of the regression model
+summary(model_log_log)
+
+# Extract the coefficients (intercept and slope)
+intercept_log_log <- coef(model_log_log)[1]
+slope_log_log <- coef(model_log_log)[2]
+
+# Create a scatter plot of log(total cars) versus log(death rate)
+plot(
+  x = log_death_rate,
+  y = log_total_cars,
+  xlab = "Log(Death Rate)",
+  ylab = "Log(Total Cars)",
+  main = "Scatter Plot of Log(Death Rate) vs Log(Total Cars)"
+)
+
+# Superimpose the least squares line
+abline(model_log_log, col = "red")
+
+# Predict log(total cars) for a given log(death rate) value
+predicted_log_total_cars <- predict(model_log_log, newdata = data.frame(log_death_rate = -3.769252))
+
+# Convert the predicted log(total cars) back to total cars (reverse log transformation)
+predicted_total_cars <- 10^predicted_log_total_cars
+
+# Print the predicted total cars
+print(paste("Predicted total cars for log(death rate) = -3.769252:", predicted_total_cars))
+
+```

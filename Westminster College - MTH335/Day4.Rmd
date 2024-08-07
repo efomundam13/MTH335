@@ -1,0 +1,61 @@
+---
+title: "Day 3 and 4 class"
+output: pdf_document
+date: "2023-09-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r freq}
+grades <- c("A", "D", "C", "D", "C", "C", "C", "C", "F", "B")
+table(grades) # two ways to make a frequency table
+xtabs(~grades)
+```
+```{r rel}
+table(grades)/length(grades) # two ways to make a relative frequency table
+prop.table(table(grades))
+```
+
+```{r barplot}
+opar <- par(no.readonly = TRUE) #saving current 
+par(mfrow = c(1,2)) #puts graphs in a 1 by 2 arrangement
+barplot(table(grades), xlab = "Grades", ylab = "Frequency")
+barplot(prop.table(xtabs(~ grades)), xlab = "Grades", ylab = "Relative Frequency")
+par(opar) #reverts back to original environment
+```
+
+```{r dotchart}
+dotchart(table(grades), main = "Grades", bg = "gray40", xlim = c(0,6))
+```
+```{r quine}
+library("MASS") #load the package called MASS
+table(quine$Age) #gives the Age column from quine dataset
+opar <- par(no.readonly = TRUE) # read in current parameters
+par(mfrow = c(1,2)) #make graphs side by side
+TDM <- xtabs(Days ~ Age, data = quine) # gives a table of number of days missed by age
+dotchart(TDM, bg = "gray40", xlab = "Total Days Missed")
+ADM <- with(data = quine, tapply(Days, list(Age), mean)) #calculates the average days missed for each age group
+dotchart(ADM, xlab = "Average Days Missed", bg = "gray60")
+par(opar)
+```
+
+```{r piechart}
+opar <- par(no.readonly = TRUE)
+par(mfrow = c(1,2))
+GS <- gray(c(0.1, 0.4, 0.7, 0.8, 0.95)) #different grays
+pie(xtabs(~ grades), radius = 1, col = GS) #pi chart
+mtext("Grades", side = 3, line = 1) #side indicates where the text goes
+pie(xtabs(~ Age, data = quine), radius = 1, col = GS) 
+mtext("Age", side = 3, line = 1)
+par(opar)
+
+```
+
+```{r stemandleaf}
+library("PASWR")
+NYYHR <- Baberuth$HR[Baberuth$Team == "NY-A"] #stores the number of homeruns baberuth scored each year he was a NY Yankee
+stem(NYYHR) #stem and leaf chart of previous data
+```
+

@@ -1,0 +1,79 @@
+---
+title: "Project1"
+author: "Manny Fomundam, Christine Rossi, Elizabeth Walters, Ryan Armstrong"
+date: "2023-09-13"
+output: pdf_document
+---
+
+```{r On Your own #1}
+source("http://www.openintro.org/stat/data/cdc.R")
+
+plot(cdc$weight, cdc$wtdesire, 
+     xlab = "Weight (lbs)", 
+     ylab = "Desired Weight (lbs)",
+     main = "Scatterplot of Weight vs. Desired Weight")
+```
+
+```{r On Your own #2 and #3 and #4}
+source("http://www.openintro.org/stat/data/cdc.R")
+
+# Create the new variable wdiff
+wdiff <- cdc$wtdesire - cdc$weight
+
+# Check the first few values of wdiff
+head(wdiff)
+
+typeof(wdiff)
+
+#wdiff is an integer. If wdiff is 0 then their desired and actual weight are the same. If wdiff is positive then their desired weight is more than their actual weight so it can be assumed that ther person is underweight to their standards. If wdiff is negative then the desired weight is less than the actual weight so it can be assumed the person is overweight to their standards.
+```
+
+```{r On Your own #4}
+source("http://www.openintro.org/stat/data/cdc.R")
+
+# Calculate summary statistics
+summary(wdiff)
+
+# Create a histogram to visualize the distribution
+hist(wdiff, 
+     xlab = "Weight Difference (lbs)", 
+     main = "Distribution of Weight Difference")
+
+# Add a vertical line at the mean
+abline(v = mean(wdiff), col = "navy", lwd = 2)
+
+#Most people feel they weigh mor ethan the weight they desire. The average person is 14.59 pounds heavier than their desired weight. Very few people weighed less or equal to their desired weight.
+```
+```{r On Your own #5}
+source("http://www.openintro.org/stat/data/cdc.R")
+
+# Create a side-by-side box plot for wdiff by gender
+boxplot(wdiff ~ cdc$gender,
+        xlab = "Gender",
+        ylab = "Weight Difference (lbs)",
+        main = "Weight Difference by Gender")
+
+# Calculate summary statistics for wdiff by gender
+summary(wdiff[cdc$gender == "male"])
+summary(wdiff[cdc$gender == "female"])
+
+#Men tend to look at their weight better than females. 
+```
+
+```{r On Your own #6}
+# Calculate the mean and standard deviation of weight
+mean_weight <- mean(cdc$weight)
+sd_weight <- sd(cdc$weight)
+
+# Calculate the lower and upper bounds for one standard deviation from the mean
+lower_bound <- mean_weight - sd_weight
+upper_bound <- mean_weight + sd_weight
+
+# Calculate the proportion of weights within one standard deviation of the mean
+proportion_within_one_sd <- sum(cdc$weight >= lower_bound & cdc$weight <= upper_bound) / length(cdc$weight)
+
+# Print the results
+mean_weight
+sd_weight
+proportion_within_one_sd
+```

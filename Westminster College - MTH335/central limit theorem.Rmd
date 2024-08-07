@@ -1,0 +1,105 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-11-29"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+set.seed(961)
+a <- 1
+b <- 7
+
+m <- 10000
+
+meanunif2 <- numeric(m)
+meanunif16 <- numeric(m)
+meanunif36 <- numeric(m)
+meanunif100 <- numeric(m)
+
+for (i in 1:m) {meanunif2[i] <- mean(runif(2,a,b))}
+for (i in 1:m) {meanunif16[i] <- mean(runif(16,a,b))}
+for (i in 1:m) {meanunif36[i] <- mean(runif(36,a,b))}
+for (i in 1:m) {meanunif100[i] <- mean(runif(100,a,b))}
+
+bdf <- data.frame(means = c(meanunif2, meanunif16, meanunif36, meanunif100),
+                  Size = c(rep("n = 2", m), rep("n = 16", m), rep("n = 36", m), rep("n = 100",m)))
+bdf$Size <- factor(bdf$Size,
+                   levels = c("n = 2", "n = 16", "n = 36", "n = 100"))
+
+p <- ggplot(data = subset(bdf, Size == "n = 2"), aes(x = means)) +
+  geom_density(fill = "skyblue") +
+  coord_cartesian(xlim = c(a,b)) +
+  labs(x = expression(bar(x))) +
+  theme_bw()
+p
+p2 <- ggplot(data = subset(bdf, Size == "n = 16"), aes(x = means)) +
+  geom_density(fill = "skyblue") +
+  coord_cartesian(xlim = c(a,b)) +
+  labs(x = expression(bar(x))) +
+  theme_bw()
+p3 <- ggplot(data = subset(bdf, Size == "n = 36"), aes(x = means)) +
+  geom_density(fill = "skyblue") +
+  coord_cartesian(xlim = c(a,b)) +
+  labs(x = expression(bar(x))) +
+  theme_bw()
+p4 <- ggplot(data = subset(bdf, Size == "n = 100"), aes(x = means)) +
+  geom_density(fill = "skyblue") +
+  coord_cartesian(xlim = c(a,b)) +
+  labs(x = expression(bar(x))) +
+  theme_bw()
+p2
+p3
+p4
+```
+Notice that as the sample size increases, the distribution of $\overline{x}$ becomes smoother but also slimmer. Recall: $Var[\overline{X}] = \frac{\sigma^2}{n}$ which tells us as $n$ increases, the variance decreases, leading to a less spread distribution.
+
+```{r}
+m <- 10000
+a <- -3.66025
+b <- 13.66025
+
+meanexp2 <- numeric(m)
+meanexp16 <- numeric(m)
+meanexp36 <- numeric(m)
+meanexp100 <- numeric(m)
+
+for (i in 1:m) {meanexp2[i] <- mean(rexp(2,1/5))}
+for (i in 1:m) {meanexp16[i] <- mean(rexp(16,1/5))}
+for (i in 1:m) {meanexp36[i] <- mean(rexp(36,1/5))}
+for (i in 1:m) {meanexp100[i] <- mean(rexp(100,1/5))}
+
+bdf <- data.frame(means = c(meanexp2, meanexp16, meanexp36, meanexp100),
+                  Size = c(rep("n = 2", m), rep("n = 16", m), rep("n = 36", m), rep("n = 100",m)))
+bdf$Size <- factor(bdf$Size,
+                   levels = c("n = 2", "n = 16", "n = 36", "n = 100"))
+
+p <- ggplot(data = subset(bdf, Size == "n = 2"), aes(x = means)) +
+  geom_density(fill = "skyblue") +
+  coord_cartesian(xlim = c(a,b)) +
+  labs(x = expression(bar(x))) +
+  theme_bw()
+p
+p2 <- ggplot(data = subset(bdf, Size == "n = 16"), aes(x = means)) +
+  geom_density(fill = "skyblue") +
+  coord_cartesian(xlim = c(a,b)) +
+  labs(x = expression(bar(x))) +
+  theme_bw()
+p3 <- ggplot(data = subset(bdf, Size == "n = 36"), aes(x = means)) +
+  geom_density(fill = "skyblue") +
+  coord_cartesian(xlim = c(a,b)) +
+  labs(x = expression(bar(x))) +
+  theme_bw()
+p4 <- ggplot(data = subset(bdf, Size == "n = 100"), aes(x = means)) +
+  geom_density(fill = "skyblue") +
+  coord_cartesian(xlim = c(a,b)) +
+  labs(x = expression(bar(x))) +
+  theme_bw()
+p2
+p3
+p4
+```
+Original distribution is exponential so when $n=2$ we get a skewed distribution that becomes more normal as we increase the sample size.

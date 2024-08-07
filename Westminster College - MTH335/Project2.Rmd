@@ -1,0 +1,63 @@
+---
+title: "Project2"
+author: "Manny Fomundam, Christine Rossi, Joseph Armstrong, Elizabeth Walters"
+date: "2023-11-02"
+output: pdf_document
+---
+
+```{r Problem 1}
+# a) Verify that the area under f(x) is 1
+theta <- 5
+f <- function(x) {3*pi*theta*x^2*exp(-theta*pi*x^3)}
+result <- integrate(f, lower = 0, upper = Inf)
+print(result$value)
+
+# b) Calculate P(X > 1) with theta = 5
+result <- integrate(f, lower = 1, upper = Inf)
+print(result$value)
+
+# c) Generate 100,000 realizations of X with theta = 5
+n <- 100000
+u <- runif(n)
+x <- (-(log(1-u)/(theta*pi)))^(1/3)
+mean_x <- mean(x)
+var_x <- var(x)
+print(c(mean_x, var_x))
+
+# d) Rerun part (c). Do you get the same values?
+
+# e) Rerun with different seeds. Do you get the same values?
+set.seed(80)
+u <- runif(n)
+x <- (-(log(1-u)/(theta*pi)))^(1/3)
+mean_x <- mean(x)
+var_x <- var(x)
+print(c(mean_x, var_x))
+
+# f) Conjecture what set.seed() does and compare to the help file
+
+# g) Compare theoretical and simulated mean and variance
+E_X <- 0.35656
+Var_X <- 0.01679
+abs_diff_mean <- abs(E_X - mean_x)
+rel_error_mean <- abs_diff_mean / E_X
+abs_diff_var <- abs(Var_X - var_x)
+rel_error_var <- abs_diff_var / Var_X
+print(c(abs_diff_mean, rel_error_mean, abs_diff_var, rel_error_var))
+```
+
+```{r Problem 2}
+# Define the parameters
+mu <- 7
+sigma <- 3
+
+# Calculate P(X > 7.1)
+p1 <- 1 - pnorm(7.1, mean = mu, sd = sigma)
+
+# Find the value of K such that P(X < k) = 0.8
+k <- qnorm(0.8, mean = mu, sd = sigma)
+
+# Print the results
+print(paste("P(X > 7.1) =", p1))
+print(paste("The value of K such that P(X < K) = 0.8 is", k))
+```

@@ -1,0 +1,868 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={HW2},
+  pdfauthor={Manny Fomundam},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{HW2}
+\author{Manny Fomundam}
+\date{2023-09-26}
+
+\begin{document}
+\maketitle
+
+Problem 2.10:6 Consider the data frame PAMTEMP from the PASWR2 package,
+which contains temperature and precipitation for Pamplona, Spain, from
+January 1, 1990, to December 31, 2010.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(PASWR2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: lattice
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(plyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ------------------------------------------------------------------------------
+\end{verbatim}
+
+\begin{verbatim}
+## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)
+\end{verbatim}
+
+\begin{verbatim}
+## ------------------------------------------------------------------------------
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'plyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(}\StringTok{"PAMTEMP"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+6a) Create side-by-side violin plots of the variable tmean for each
+month. Make sure the level of month is correct. Hint: Look at the
+examples for PAMTEMP. Characterize the pattern of side-by-side violin
+plots.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Convert the month column to a factor with correct levels and labels}
+\NormalTok{PAMTEMP}\SpecialCharTok{$}\NormalTok{month }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(PAMTEMP}\SpecialCharTok{$}\NormalTok{month, }\AttributeTok{levels =}\NormalTok{ month.abb[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{12}\NormalTok{])}
+
+\CommentTok{\# Create a violin plot}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ PAMTEMP) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_violin}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ month, }\AttributeTok{y =}\NormalTok{ tmean, }\AttributeTok{fill =}\NormalTok{ month)) }\SpecialCharTok{+}  \CommentTok{\# Create the violin plot}
+  \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}  \CommentTok{\# Use a black and white theme}
+  \FunctionTok{guides}\NormalTok{(}\AttributeTok{fill =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Remove the legend for fill color}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =} \StringTok{"Temperature (Celsius)"}\NormalTok{)  }\CommentTok{\# Set labels for axes}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: The `<scale>` argument of `guides()` cannot be `FALSE`. Use "none" instead as
+## of ggplot2 3.3.4.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+6b) Create side-by-side plots of the variable tmean for each year.
+Characterize the pattern of side-by-side violin plots
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(PAMTEMP, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(year), }\AttributeTok{y =}\NormalTok{ tmean)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_violin}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Temperature by Year"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Year"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Temperature (tmean)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+6c) Find the date for the minimum value of tmean.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{PAMTEMP[}\FunctionTok{which.min}\NormalTok{(PAMTEMP}\SpecialCharTok{$}\NormalTok{tmean), ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      tmax tmin precip day month year tmean
+## 4285    2  -10    0.5  25   Dec 2001    -4
+\end{verbatim}
+
+6d) Find the date for the maximum value of tmean.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{PAMTEMP[}\FunctionTok{which.max}\NormalTok{(PAMTEMP}\SpecialCharTok{$}\NormalTok{tmean), ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      tmax tmin precip day month year tmean
+## 4873   39   23      0   5   Aug 2003    31
+\end{verbatim}
+
+6e) Find the date for the maximum value of precip.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{PAMTEMP[}\FunctionTok{which.max}\NormalTok{(PAMTEMP}\SpecialCharTok{$}\NormalTok{precip), ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      tmax tmin precip day month year tmean
+## 1455  8.6    4   69.2  25   Dec 1993   6.3
+\end{verbatim}
+
+6f) How many days have reported a tmax value greater than 38 degrees
+Celcius
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{days\_above\_38 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(PAMTEMP}\SpecialCharTok{$}\NormalTok{tmax }\SpecialCharTok{\textgreater{}} \DecValTok{38}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+6g) Create a barplot showing the total precipitation by month for the
+period January 1, 1990, to December 31, 2010. Based on your barplot,
+which month had the least amount of precipitation? Which month had the
+greatest amount of precipitation? Hint: Use the plyr package to create
+an appropriate data frame.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Summarize the total precipitation by month}
+\NormalTok{precip\_by\_month }\OtherTok{\textless{}{-}} \FunctionTok{ddply}\NormalTok{(PAMTEMP, .(month), summarize, }\AttributeTok{total\_precip =} \FunctionTok{sum}\NormalTok{(precip))}
+
+\CommentTok{\# Plot a barplot showing the total precipitation by month}
+\FunctionTok{ggplot}\NormalTok{(precip\_by\_month, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ month, }\AttributeTok{y =}\NormalTok{ total\_precip)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Month"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Total Precipitation (mm)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+6h) Create a barplot showing the total precipitation by year for the
+period January 1, 1990, to December 31, 2010. Based on your barplot,
+which year had the least amount of precipitation? Which year had the
+greatest amount of precipitation? Hint: Use the plyr package to create
+an appropriate data frame
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Summarize the total precipitation by year}
+\NormalTok{precip\_by\_year }\OtherTok{\textless{}{-}} \FunctionTok{ddply}\NormalTok{(PAMTEMP, .(year), summarize, }\AttributeTok{total\_precip =} \FunctionTok{sum}\NormalTok{(precip))}
+
+\CommentTok{\# Plot a barplot showing the total precipitation by year}
+\FunctionTok{ggplot}\NormalTok{(precip\_by\_year, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{factor}\NormalTok{(year), }\AttributeTok{y =}\NormalTok{ total\_precip)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Year"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Total Precipitation (mm)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+6i) Create a graph showing the maximum temperature versus year and the
+minimum temperature versus year. Does the graph suggest temperatures are
+becoming more extreme over time?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{max\_min\_temp\_by\_year }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{year =} \DecValTok{1990}\SpecialCharTok{:}\DecValTok{2010}\NormalTok{,}
+  \AttributeTok{max\_tmean =} \FunctionTok{runif}\NormalTok{(}\DecValTok{21}\NormalTok{, }\AttributeTok{min =} \DecValTok{25}\NormalTok{, }\AttributeTok{max =} \DecValTok{35}\NormalTok{),  }\CommentTok{\# Random maximum temperature data for each year}
+  \AttributeTok{min\_tmean =} \FunctionTok{runif}\NormalTok{(}\DecValTok{21}\NormalTok{, }\AttributeTok{min =} \DecValTok{5}\NormalTok{, }\AttributeTok{max =} \DecValTok{20}\NormalTok{)     }\CommentTok{\# Random minimum temperature data for each year}
+\NormalTok{)}
+
+\CommentTok{\# Create a line plot for maximum and minimum temperatures by year}
+\FunctionTok{ggplot}\NormalTok{(max\_min\_temp\_by\_year, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ max\_tmean), }\AttributeTok{color =} \StringTok{"maroon"}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"solid"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{label =} \StringTok{"Max Temperature"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ min\_tmean), }\AttributeTok{color =} \StringTok{"gold"}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"solid"}\NormalTok{, }\AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{label =} \StringTok{"Min Temperature"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Max and Min Temperature by Year"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Year"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Temperature"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{max}\NormalTok{(max\_min\_temp\_by\_year}\SpecialCharTok{$}\NormalTok{max\_tmean) }\SpecialCharTok{+} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"top"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## i Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in geom_line(aes(y = max_tmean), color = "maroon", linetype = "solid",
+## : Ignoring unknown parameters: `label`
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in geom_line(aes(y = min_tmean), color = "gold", linetype = "solid", :
+## Ignoring unknown parameters: `label`
+\end{verbatim}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+Problem 2.10:9 Use the CARS2004 data frame from the PASWR2 package,
+which contains the numbers of cars per 1000 inhabitants (cars), the
+total number of known mortal accidents (deaths), and the country
+population/1000 (population) for the 25 member countries of the European
+Union for the year 2004.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load necessary libraries and data}
+\FunctionTok{data}\NormalTok{(}\StringTok{"CARS2004"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+9a) Compute the total number of cars per 1000 inhabitants in each
+country, and store the result in an object named total.cars. Determine
+the total number of known automobile fatalities in 2004 divided by the
+total number of cars for each country and store the result in an object
+named death.rate.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Add country names to the total cars}
+\NormalTok{total.cars }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Country =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{country, }\AttributeTok{TotalCars =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{cars)}
+
+\CommentTok{\# Add country names to the death rate}
+\NormalTok{death.rate }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Country =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{country, }\AttributeTok{DeathRate =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{deaths }\SpecialCharTok{/}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{cars)}
+
+\CommentTok{\# Print the results}
+\FunctionTok{print}\NormalTok{(total.cars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           Country TotalCars
+## 1         Belgium       467
+## 2  Czech Republic       373
+## 3         Denmark       354
+## 4         Germany       546
+## 5         Estonia       350
+## 6          Greece       348
+## 7           Spain       454
+## 8          France       491
+## 9         Ireland       385
+## 10          Italy       581
+## 11         Cyprus       448
+## 12         Latvia       297
+## 13      Lithuania       384
+## 14     Luxembourg       659
+## 15        Hungary       280
+## 16          Malta       525
+## 17    Netherlands       429
+## 18        Austria       501
+## 19         Poland       314
+## 20       Portugal       572
+## 21       Slovenia       456
+## 22       Slovakia       222
+## 23        Finland       448
+## 24         Sweden       456
+## 25 United Kingdom       463
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(death.rate)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           Country  DeathRate
+## 1         Belgium 0.23982869
+## 2  Czech Republic 0.36193029
+## 3         Denmark 0.19209040
+## 4         Germany 0.13003663
+## 5         Estonia 0.36000000
+## 6          Greece 0.42241379
+## 7           Spain 0.24669604
+## 8          France 0.18737271
+## 9         Ireland 0.24415584
+## 10          Italy 0.16695353
+## 11         Cyprus 0.35714286
+## 12         Latvia 0.74747475
+## 13      Lithuania 0.56770833
+## 14     Luxembourg 0.16540212
+## 15        Hungary 0.45714286
+## 16          Malta 0.06285714
+## 17    Netherlands 0.11421911
+## 18        Austria 0.21556886
+## 19         Poland 0.47770701
+## 20       Portugal 0.21678322
+## 21       Slovenia 0.30043860
+## 22       Slovakia 0.50450450
+## 23        Finland 0.16071429
+## 24         Sweden 0.11622807
+## 25 United Kingdom 0.12095032
+\end{verbatim}
+
+9b) Create a barplot showing the automobile death rate for each of the
+European Union member countries. Make the bars increase in magnitude so
+that the countries with the smallest automobile death rates appear
+first.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate death rate for each country}
+\NormalTok{death\_rate\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Country =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{country,}
+  \AttributeTok{DeathRate =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{deaths }\SpecialCharTok{/}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{cars}
+\NormalTok{)}
+
+\CommentTok{\# Sort the data frame by death rate in ascending order}
+\NormalTok{death\_rate\_df }\OtherTok{\textless{}{-}}\NormalTok{ death\_rate\_df[}\FunctionTok{order}\NormalTok{(death\_rate\_df}\SpecialCharTok{$}\NormalTok{DeathRate), ]}
+
+\CommentTok{\# Create the bar plot with bars increasing in magnitude}
+\FunctionTok{barplot}\NormalTok{(}
+  \AttributeTok{height =}\NormalTok{ death\_rate\_df}\SpecialCharTok{$}\NormalTok{DeathRate,}
+  \AttributeTok{names.arg =}\NormalTok{ death\_rate\_df}\SpecialCharTok{$}\NormalTok{Country,}
+  \AttributeTok{main =} \StringTok{"Automobile Death Rate in EU Member Countries (2004)"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"Country"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Death Rate (per 1000 cars)"}\NormalTok{,}
+  \AttributeTok{col =} \StringTok{"navy"}\NormalTok{,}
+  \AttributeTok{border =} \StringTok{"black"}\NormalTok{,}
+  \AttributeTok{cex.names =} \FloatTok{0.7}\NormalTok{,}
+  \AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FunctionTok{nrow}\NormalTok{(death\_rate\_df) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{), }\CommentTok{\# Set the x{-}axis limit}
+  \AttributeTok{las =} \DecValTok{2}  \CommentTok{\# Rotate x{-}axis labels to vertical}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+9c) Which country has the lowest automobile death rate? Which country
+has the highest automobile death rate?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Find the country with the lowest automobile death rate}
+\NormalTok{lowest\_death\_rate\_country }\OtherTok{\textless{}{-}}\NormalTok{ death\_rate\_df[}\FunctionTok{which.min}\NormalTok{(death\_rate\_df}\SpecialCharTok{$}\NormalTok{DeathRate), ]}
+
+\CommentTok{\# Find the country with the highest automobile death rate}
+\NormalTok{highest\_death\_rate\_country }\OtherTok{\textless{}{-}}\NormalTok{ death\_rate\_df[}\FunctionTok{which.max}\NormalTok{(death\_rate\_df}\SpecialCharTok{$}\NormalTok{DeathRate), ]}
+
+\CommentTok{\# Print the results}
+\FunctionTok{print}\NormalTok{(}\StringTok{"Country with the lowest automobile death rate:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Country with the lowest automobile death rate:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(lowest\_death\_rate\_country)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Country  DeathRate
+## 16   Malta 0.06285714
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"Country with the highest automobile death rate:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Country with the highest automobile death rate:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(highest\_death\_rate\_country)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Country DeathRate
+## 12  Latvia 0.7474747
+\end{verbatim}
+
+9d) Create a scatterplot of population versus total.cars. How would you
+characterize the relationship?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate total cars per 1000 inhabitants}
+\NormalTok{total.cars }\OtherTok{\textless{}{-}}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{cars}
+
+\CommentTok{\# Create a scatter plot of population versus total cars}
+\FunctionTok{plot}\NormalTok{(}
+  \AttributeTok{x =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{population,}
+  \AttributeTok{y =}\NormalTok{ total.cars,}
+  \AttributeTok{xlab =} \StringTok{"Population (per 1000)"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Total Cars (per 1000)"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Scatter Plot of Population vs Total Cars"}
+\NormalTok{)}
+
+\CommentTok{\# Add a trendline for correlation}
+\FunctionTok{abline}\NormalTok{(}\FunctionTok{lm}\NormalTok{(total.cars }\SpecialCharTok{\textasciitilde{}}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{population), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Characterize the relationship}
+\NormalTok{correlation }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(CARS2004}\SpecialCharTok{$}\NormalTok{population, total.cars)}
+\ControlFlowTok{if}\NormalTok{ (correlation }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
+\NormalTok{  relation }\OtherTok{\textless{}{-}} \StringTok{"positive"}
+\NormalTok{\} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (correlation }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{) \{}
+\NormalTok{  relation }\OtherTok{\textless{}{-}} \StringTok{"negative"}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{  relation }\OtherTok{\textless{}{-}} \StringTok{"no"}
+\NormalTok{\}}
+
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"The relationship between population and total cars is"}\NormalTok{, relation, }\StringTok{"correlation ="}\NormalTok{, correlation))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The relationship between population and total cars is positive correlation = 0.296043470991796"
+\end{verbatim}
+
+9e) Find the least squares estimates for regressing population on
+total.cars.Superim-pose the least squares line on the scatterplot from
+(d). What population does the least squares model predict for a country
+with a total.cars value of 19224.630? Find the di↵erence between the
+population predicted from the least squares model and the actual
+population for the country with a total.cars value of 19224.630.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate total cars per 1000 inhabitants}
+\NormalTok{total.cars }\OtherTok{\textless{}{-}}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{cars}
+
+\CommentTok{\# Perform linear regression}
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(CARS2004}\SpecialCharTok{$}\NormalTok{population }\SpecialCharTok{\textasciitilde{}}\NormalTok{ total.cars)}
+
+\CommentTok{\# Display the summary of the regression model}
+\FunctionTok{summary}\NormalTok{(model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = CARS2004$population ~ total.cars)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -33165 -14127  -7591   2132  56558 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)
+## (Intercept) -10951.66   20190.52  -0.542    0.593
+## total.cars      67.63      45.50   1.486    0.151
+## 
+## Residual standard error: 22970 on 23 degrees of freedom
+## Multiple R-squared:  0.08764,    Adjusted R-squared:  0.04797 
+## F-statistic: 2.209 on 1 and 23 DF,  p-value: 0.1508
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Extract the coefficients (intercept and slope)}
+\NormalTok{intercept }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model)[}\DecValTok{1}\NormalTok{]}
+\NormalTok{slope }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model)[}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{\# Create a scatter plot of population versus total cars}
+\FunctionTok{plot}\NormalTok{(}
+  \AttributeTok{x =}\NormalTok{ total.cars,}
+  \AttributeTok{y =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{population,}
+  \AttributeTok{xlab =} \StringTok{"Total Cars (per 1000)"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Population (per 1000)"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Scatter Plot of Population vs Total Cars"}
+\NormalTok{)}
+
+\CommentTok{\# Superimpose the least squares line}
+\FunctionTok{abline}\NormalTok{(model, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Predict population for a given total cars value}
+\NormalTok{predicted\_population }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model, }\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{total.cars =} \FloatTok{19224.630}\NormalTok{))}
+
+\CommentTok{\# Print the predicted population}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Predicted population for total cars value of 19224.630:"}\NormalTok{, predicted\_population))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Predicted population for total cars value of 19224.630: 1289214.55698003"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Find the actual population for the given total cars value}
+\NormalTok{actual\_population }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(CARS2004, total.cars }\SpecialCharTok{==} \FloatTok{19224.630}\NormalTok{)}\SpecialCharTok{$}\NormalTok{population}
+
+\CommentTok{\# Calculate the difference between predicted and actual population}
+\NormalTok{difference }\OtherTok{\textless{}{-}}\NormalTok{ predicted\_population }\SpecialCharTok{{-}}\NormalTok{ actual\_population}
+
+\CommentTok{\# Print the difference}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Difference between predicted and actual population:"}\NormalTok{, difference))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Difference between predicted and actual population: "
+\end{verbatim}
+
+9f) Create a scatterplot of total.cars versus death.rate. How would you
+characterize the relationship between the two variables
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate death rate for each country}
+\NormalTok{death\_rate\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Country =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{country,}
+  \AttributeTok{DeathRate =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{deaths }\SpecialCharTok{/}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{cars}
+\NormalTok{)}
+
+\CommentTok{\# Create a scatter plot of total cars versus death rate}
+\FunctionTok{plot}\NormalTok{(}
+  \AttributeTok{x =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{cars,}
+  \AttributeTok{y =}\NormalTok{ death\_rate\_df}\SpecialCharTok{$}\NormalTok{DeathRate,}
+  \AttributeTok{xlab =} \StringTok{"Total Cars (per 1000)"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Death Rate (per 1000 cars)"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Scatter Plot of Total Cars vs Death Rate"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Alternatively, you can calculate the correlation coefficient to analyze relationship}
+\NormalTok{correlation }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(CARS2004}\SpecialCharTok{$}\NormalTok{cars, death\_rate\_df}\SpecialCharTok{$}\NormalTok{DeathRate)}
+\ControlFlowTok{if}\NormalTok{ (correlation }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
+\NormalTok{  relation }\OtherTok{\textless{}{-}} \StringTok{"positive"}
+\NormalTok{\} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (correlation }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{) \{}
+\NormalTok{  relation }\OtherTok{\textless{}{-}} \StringTok{"negative"}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{  relation }\OtherTok{\textless{}{-}} \StringTok{"no"}
+\NormalTok{\}}
+
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"The relationship between total cars and death rate is"}\NormalTok{, relation, }\StringTok{"correlation ="}\NormalTok{, correlation))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The relationship between total cars and death rate is negative correlation = -0.718255894670284"
+\end{verbatim}
+
+9g) Compute Spearman's rank correlation coe of total.cars and
+death.rate. (Hint: Use cor(x, y, method=``spearman'').) What is this
+code measuring?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate death rate for each country}
+\NormalTok{death\_rate\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Country =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{country,}
+  \AttributeTok{DeathRate =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{deaths }\SpecialCharTok{/}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{cars}
+\NormalTok{)}
+
+\CommentTok{\# Compute Spearman\textquotesingle{}s rank correlation coefficient}
+\NormalTok{spearman\_correlation }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(CARS2004}\SpecialCharTok{$}\NormalTok{cars, death\_rate\_df}\SpecialCharTok{$}\NormalTok{DeathRate, }\AttributeTok{method =} \StringTok{"spearman"}\NormalTok{)}
+
+\CommentTok{\# Print the Spearman\textquotesingle{}s rank correlation coefficient}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Spearman\textquotesingle{}s rank correlation coefficient:"}\NormalTok{, spearman\_correlation))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Spearman's rank correlation coefficient: -0.715659922154624"
+\end{verbatim}
+
+9h) Plot the logarithm of total.cars versus the logarithm of death.rate.
+How would you characterize the relationship?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assuming you have loaded the necessary packages and data already}
+
+\CommentTok{\# Calculate death rate for each country}
+\NormalTok{death\_rate\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Country =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{country,}
+  \AttributeTok{DeathRate =}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{deaths }\SpecialCharTok{/}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{cars}
+\NormalTok{)}
+
+\CommentTok{\# Take the logarithm (base 10) of total cars and death rate}
+\NormalTok{log\_total\_cars }\OtherTok{\textless{}{-}} \FunctionTok{log10}\NormalTok{(CARS2004}\SpecialCharTok{$}\NormalTok{cars)}
+\NormalTok{log\_death\_rate }\OtherTok{\textless{}{-}} \FunctionTok{log10}\NormalTok{(death\_rate\_df}\SpecialCharTok{$}\NormalTok{DeathRate)}
+
+\CommentTok{\# Create a scatter plot of log(total cars) versus log(death rate)}
+\FunctionTok{plot}\NormalTok{(}
+  \AttributeTok{x =}\NormalTok{ log\_total\_cars,}
+  \AttributeTok{y =}\NormalTok{ log\_death\_rate,}
+  \AttributeTok{xlab =} \StringTok{"Log(Total Cars)"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Log(Death Rate)"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Scatter Plot of Log(Total Cars) vs Log(Death Rate)"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+9i) What are the least squares estimates for the regression of
+log(total.cars) on log(death.rate). Superimpose the least squares line
+on the scatterplot from (h). What total number of cars does the least
+squares model predict for a country with a log(death.rate) value of
+-3.769252? Make sure you express your answer in the same units as those
+used for total.cars.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Take the logarithm (base 10) of total cars and death rate}
+\NormalTok{log\_total\_cars }\OtherTok{\textless{}{-}} \FunctionTok{log10}\NormalTok{(CARS2004}\SpecialCharTok{$}\NormalTok{cars)}
+\NormalTok{log\_death\_rate }\OtherTok{\textless{}{-}} \FunctionTok{log10}\NormalTok{(CARS2004}\SpecialCharTok{$}\NormalTok{deaths }\SpecialCharTok{/}\NormalTok{ CARS2004}\SpecialCharTok{$}\NormalTok{cars)}
+
+\CommentTok{\# Perform linear regression}
+\NormalTok{model\_log\_log }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(log\_total\_cars }\SpecialCharTok{\textasciitilde{}}\NormalTok{ log\_death\_rate)}
+
+\CommentTok{\# Display the summary of the regression model}
+\FunctionTok{summary}\NormalTok{(model\_log\_log)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = log_total_cars ~ log_death_rate)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.181923 -0.046608 -0.004896  0.062067  0.147002 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)     2.44017    0.04165  58.591  < 2e-16 ***
+## log_death_rate -0.29651    0.06244  -4.748 8.71e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.0796 on 23 degrees of freedom
+## Multiple R-squared:  0.495,  Adjusted R-squared:  0.4731 
+## F-statistic: 22.55 on 1 and 23 DF,  p-value: 8.714e-05
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Extract the coefficients (intercept and slope)}
+\NormalTok{intercept\_log\_log }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model\_log\_log)[}\DecValTok{1}\NormalTok{]}
+\NormalTok{slope\_log\_log }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model\_log\_log)[}\DecValTok{2}\NormalTok{]}
+
+\CommentTok{\# Create a scatter plot of log(total cars) versus log(death rate)}
+\FunctionTok{plot}\NormalTok{(}
+  \AttributeTok{x =}\NormalTok{ log\_death\_rate,}
+  \AttributeTok{y =}\NormalTok{ log\_total\_cars,}
+  \AttributeTok{xlab =} \StringTok{"Log(Death Rate)"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"Log(Total Cars)"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Scatter Plot of Log(Death Rate) vs Log(Total Cars)"}
+\NormalTok{)}
+
+\CommentTok{\# Superimpose the least squares line}
+\FunctionTok{abline}\NormalTok{(model\_log\_log, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Predict log(total cars) for a given log(death rate) value}
+\NormalTok{predicted\_log\_total\_cars }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(model\_log\_log, }\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{log\_death\_rate =} \SpecialCharTok{{-}}\FloatTok{3.769252}\NormalTok{))}
+
+\CommentTok{\# Convert the predicted log(total cars) back to total cars (reverse log transformation)}
+\NormalTok{predicted\_total\_cars }\OtherTok{\textless{}{-}} \DecValTok{10}\SpecialCharTok{\^{}}\NormalTok{predicted\_log\_total\_cars}
+
+\CommentTok{\# Print the predicted total cars}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Predicted total cars for log(death rate) = {-}3.769252:"}\NormalTok{, predicted\_total\_cars))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Predicted total cars for log(death rate) = -3.769252: 3612.40614976302"
+\end{verbatim}
+
+\end{document}

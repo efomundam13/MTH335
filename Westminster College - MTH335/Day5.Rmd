@@ -1,0 +1,57 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-09-06"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r readdata}
+site <-"http://www.appstate.edu/~arnholta/PASWR/CD/data/Poplar3.CSV"
+poplar <- read.csv(file = url(site))
+head(poplar, n = 3) # show first three row
+```
+```{r}
+#summary(poplar) # notice that the minimum height is -99, which doesn't make sense
+poplarC <- read.csv(file = url(site), na.string = "-99") #turns -99 into NA
+summary(poplarC)
+```
+
+```{r}
+#summary(poplarC[ ,4:7])
+dim(poplarC[,4:7])
+nomissing <- na.omit(poplarC)
+summary(nomissing[,4:7])
+dim(nomissing[,4:7])
+#poplarC[1:3,]
+```
+```{r}
+poplarC[c(178:180, 209:211, 217:219),]
+nomissing[c(178:180, 209:211, 215:216),]
+```
+```{r}
+library(PASWR)
+NYYHR <- Baberuth$HR[Baberuth$Team == "NY-A"]
+stripchart(NYYHR, xlab = "Home runs per season", method = "stack", main = "strip chart of home runs while a New York Yankee", pch = 1)
+```
+
+```{r}
+par(mfrow = c(1,2))
+par(las = 1)
+stripchart(HR~Team, data = Baberuth, xlab = "Home runs per season", pch = 1, method = "stack")
+title("Strip chart of home runs \n by team")
+par(las = 1) #makes labels horizontal
+stripchart(HR~Team, data = Baberuth, pch = 19, method = "stack", col = c("pink", "cyan", "purple"), xlab = "Home runs per season", main = "Grayscale strip chart of \n home runs by team")
+```
+
+```{r}
+par(mfrow = c(1,2))
+bin <- seq(20, 70, 10) # creating bins 20-70 by 10
+hist(Baberuth$HR[7:21], breaks = bin, xlab = "Home runs", col = "pink", main = "Bins of form (]")
+hist(Baberuth$HR[7:21], breaks = bin, right = FALSE, xlab = "Home runs", col = "pink", main = "Bins of form [)")
+```
+

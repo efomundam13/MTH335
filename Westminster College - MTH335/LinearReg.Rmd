@@ -1,0 +1,48 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-09-27"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+x <- log(Animals$body)
+y <- log(Animals$brain)
+plot(x,y)
+```
+
+```{r}
+sa <- Animals[order(Animals$body), ] #sort by body weight
+tail(sa, n=4)
+nodino <- sa[-(28:26),]
+nodino[22:25,]
+```
+
+```{r}
+plot(x,y, xlab = "log(body)", ylab = "log(brain)")
+b1 <- sum((x-mean(x))*(y-mean(y)))/sum((x-mean(x))^2)
+b0 <- mean(y) - b1*mean(x)
+estimates <- c(b0,b1)
+estimates
+```
+
+```{r}
+moddino <- lm(y~x)
+moddino
+plot(x,y, xlab = "log(body)", ylab = "log(brain)")
+abline(moddino, col = "pink", lwd = 2)
+
+y2 <- log(nodino$brain)
+x2 <- log(nodino$body)
+
+modnodino <- lm(y2~x2)
+abline(modnodino, col = "blue", lwd = 2, lty = 2)
+leglabels <- c("OLS with Dinosaurs", "OLS without Dinosaurs")
+leglty <- c(1,2)
+legcol = c("pink", "blue")
+legend("topleft", legend = leglabels, lty = leglty, col = legcol, lwd = 2)
+```
+

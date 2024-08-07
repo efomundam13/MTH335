@@ -1,0 +1,32 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-09-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+x <- Animals$body
+y <- Animals$brain
+plot(x,y)
+cor(x,y)
+```
+
+```{r}
+with(data = Animals, plot(body, brain, log = "xy"))
+logbody <- log(x)
+logbrain <- log(y)
+cor(logbody, logbrain)
+```
+```{r}
+sa <- Animals[order(Animals$body), ] #sort by body weight
+tail(sa, n=4)
+#dim(sa)
+nodino <- sa[-(28:26),]
+with(data = nodino, cor(log(body), log(brain)))
+with(data = Animals, cor(log(body), log(brain)))
+```
+

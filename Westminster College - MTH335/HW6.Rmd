@@ -1,0 +1,132 @@
+---
+title: "HW6"
+author: "Manny Fomundam"
+date: "2023-11-08"
+output: pdf_document
+---
+
+```{r Problem 1}
+mu <- 5
+sigma <- sqrt(100/12)
+
+# Chebyshev's Inequality
+k <- 3 / sigma
+chebyshev_bound <- 1 - 1 / k^2
+
+# Actual probability
+actual_prob <- (8 - 2) / (10 - 0)
+
+chebyshev_bound
+actual_prob
+```
+
+```{r Problem 2}
+# Calculate standard deviation numerically
+sigma <- sqrt(integrate(function(x) ((x - 5/4)^2 * 5/x^6), lower = 1, upper = Inf)$value)
+
+# Chebyshev's Inequality for P(X >= 2.5)
+k_2.5 <- abs(2.5 - 5/4) / sigma
+prob_bound_2.5 <- 1 / k_2.5^2
+print(paste("Chebyshev's bound for P(X >= 2.5):", prob_bound_2.5))
+
+# Find a such that P(X >= a) <= 0.15
+k_a <- sqrt(1 / 0.15)
+a <- abs(k_a * sigma - 5/4)
+print(paste("Value of a for P(X >= a) <= 0.15:", a))
+```
+
+```{r Problem 3: Section 3.6 Number 52}
+# Define the possible outcomes of a die roll
+die <- 1:6
+
+# Generate all possible outcomes of rolling two dice
+outcomes <- expand.grid(die, die)
+
+# Define the random variables X and Y
+X <- outcomes$Var1 + outcomes$Var2
+Y <- abs(outcomes$Var1 - outcomes$Var2)
+
+# (a) Find the mean of X
+mean_X <- mean(X)
+
+# (b) Find the variance of X
+var_X <- var(X)
+
+# (c) Find the skewness of X
+library(moments)
+skew_X <- skewness(X)
+
+# (d) Find the mean of Y
+mean_Y <- mean(Y)
+
+# (e) Find the variance of Y
+var_Y <- var(Y)
+
+# (f) Find the skewness of Y
+skew_Y <- skewness(Y)
+
+# Print the results
+print(paste("Mean of X: ", mean_X))
+print(paste("Variance of X: ", var_X))
+print(paste("Skewness of X: ", skew_X))
+print(paste("Mean of Y: ", mean_Y))
+print(paste("Variance of Y: ", var_Y))
+print(paste("Skewness of Y: ", skew_Y))
+```
+
+```{r Problem 4}
+#(b)
+# Define the function f(x)
+f <- function(x) {
+  if (x >= 5 & x <= 10) {
+    return(2/25 * (x - 5))
+  } else {
+    return(0)
+  }
+}
+
+# Create a sequence of x values
+x_values <- seq(5, 10, by = 0.1)
+
+# Compute f(x) for each x
+y_values <- sapply(x_values, f)
+
+# Plot f(x)
+plot(x_values, y_values, type = "l", xlab = "x", ylab = "f(x)", main = "Plot of f(x)")
+
+#(c)
+# Define the cumulative probability function F(x)
+F <- function(x) {
+  if (x >= 5 & x <= 10) {
+    return(integrate(function(t) 2/25 * (t - 5), lower = 5, upper = x)$value)
+  } else {
+    return(0)
+  }
+}
+
+# Compute F(x) for each x
+F_values <- sapply(x_values, F)
+
+# Plot F(x)
+plot(x_values, F_values, type = "l", xlab = "x", ylab = "F(x)", main = "Plot of F(x)")
+```
+
+```{r Problem 5: Section 4.4 Number 28}
+#(a)
+# Define the Poisson probability function
+poisson_prob <- function(lambda, k) {
+  return(exp(-lambda) * (lambda^k) / factorial(k))
+}
+
+# Given lambda (average rate of occurrence)
+lambda <- 5
+
+# Probability of receiving more than 4 calls in an hour
+prob_more_than_4 <- 1 - sum(sapply(0:4, function(k) poisson_prob(lambda, k)))
+cat("Probability of receiving more than 4 calls per hour:", prob_more_than_4, "\n")
+
+#(b)
+# Probability the first occurrence of 3 calls happens within less than 1 hour
+prob_less_than_1_hour_3_calls <- ppois(3, lambda, lower.tail = TRUE)
+cat("Probability of waiting less than 1 hour before 3 calls:", prob_less_than_1_hour_3_calls, "\n")
+```

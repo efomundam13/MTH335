@@ -1,0 +1,85 @@
+---
+title: "Plotting"
+output: pdf_document
+date: "2023-10-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+f <- log(Animals$brain)~log(Animals$body)
+modelLM <- lm(f)
+modelLM
+
+modelLQS <- lqs(f)
+modelLQS
+
+modelRLM <- rlm(f, method = "MM")
+modelRLM
+
+plot(log(Animals$body), log(Animals$brain), col = "blue")
+abline(modelLM, col = "pink", lwd = 2)
+abline(modelLQS, col = "red", lwd = 2)
+abline(modelRLM, lty = 3, col = "black", lwd = 2)
+
+leglabels <- c("ordinary Least Squares line", "least-trimmed squares", "Robust line: m-estimator")
+leglty <- c(1,2,3)
+legend("topleft", legend = leglabels, lty = leglty, col = c("pink", "red", "black"), lwd = 2, cex = 0.85)
+```
+```{r}
+attach(EPIDURAL)
+BWI <-kg/(cm/100)^2
+histogram(~BWI|treatment, layout = c(1,2))
+detach(EPIDURAL)
+```
+
+
+```{r}
+attach(EPIDURAL)
+BWI <- kg/(cm/100)^2
+bwplot(treatment~BWI|doctor, as.table = TRUE)
+stripplot(treatment~BWI|doctor, jitter = TRUE, as.table = TRUE)
+detach(EPIDURAL)
+```
+
+```{r}
+attach(EPIDURAL)
+graph1 <- bwplot(~BWI|doctor, as.table = TRUE)
+graph2 <- xyplot(cm~kg, as.table = TRUE)
+graph3 <- histogram(~BWI)
+graph4 <- densityplot(~BWI|treatment)
+print(graph1, split = c(1,2,2,2), more = TRUE) # lower left
+print(graph2, split = c(2,2,2,2), more = TRUE) # lower right
+print(graph3, split = c(1,1,2,2), more = TRUE) # upper left
+print(graph4, split = c(2,1,2,2), more = FALSE) # upper right
+detach(EPIDURAL)
+```
+
+
+```{r}
+ggplot(data = EPIDURAL) +
+  geom_histogram(aes(x = BWI), binwidth = 10)
+ggplot(data = EPIDURAL)+
+  geom_density(aes(x = BWI))
+
+ggplot(data = EPIDURAL) + 
+  geom_density(aes(x = BWI), col = "blue") +
+  facet_grid(treatment~doctor) +
+  labs( x = "BWI", y = "density")
+```
+
+```{r}
+p <- ggplot(data = EPIDURAL, aes(x = kg)) + #empty
+  labs(x = "Weight (kg)")
+
+p1 <- p + geom_histogram(binwidth = 10)
+p2 <- p + geom_histogram(binwidth = 5, fill = "gray65")
+p3 <- p + geom_histogram(binwidth = 2) 
+  
+
+plot_grid(p1, p2, p3)
+```
+

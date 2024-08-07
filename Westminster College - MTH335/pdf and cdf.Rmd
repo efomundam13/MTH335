@@ -1,0 +1,19 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-10-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+Omega <- expand.grid(coin1 = 0:1, coin2 = 0:1, coin3 = 0:1)
+n.head <- apply(Omega, 1, sum)
+cbind(Omega, n.head)
+T1 <- table(n.head)/length(n.head)
+plot(T1, xlab = "x", ylab = "P(X=x)", main = "PDF for X")
+plot(ecdf(n.head),  main = "CFD for X", ylab = "F(x)", xlab = "x")
+```
+

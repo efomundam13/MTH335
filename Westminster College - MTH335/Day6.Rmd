@@ -1,0 +1,51 @@
+---
+title: "Day 6"
+output: pdf_document
+date: "2023-09-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+par(mfrow = c(1,3))
+hist(Baberuth$HR[7:21], xlab = "Home runs", col = "pink", main = " ")
+hist(Baberuth$HR[7:21], breaks = "FD", xlab = "Home runs", col = "pink", main = " ")
+hist(Baberuth$HR[7:21], breaks = "Scott", xlab = "Home runs", col = "pink", main = " ")
+```
+```{r Sturgesunadj}
+xs <- Baberuth$HR[7:21] #home runs while NYY
+R <- diff(range(xs)) # range of data
+n <- length(xs)
+hs <- R/(1+log2(n)) #Sturges class interval width
+nclassS <- ceiling(R/hs) # number of subintervals 
+
+par(mfrow = c(1,2))
+bpS <- min(xs) + hs*0:nclassS #breakpoints
+sturgesD <- hist(xs, breaks = bpS, main = "Sturges Definition", xlab = "", col = "pink")
+sturgesAdj <- hist(xs, breaks = "Sturges", main = "Sturges Adjusted", col = "blue")
+
+```
+```{r FD}
+n <- length(xs)
+hfd <- 2*IQR(xs)/(n^(1/3)) # FD class interval width
+nclassFD <- ceiling(R/hfd) # number of subintervals
+bpFD <- min(xs) + hfd*0:nclassFD #breakpoints using FD Definition
+par(mfrow = c(1,2))
+FDdef <- hist(xs, breaks = bpFD, main = "FD Definition", col = "pink")
+FDadj <- hist(xs, breaks = "FD", main = "FD Adjusted", col = "blue")
+```
+
+```{r Scott}
+hsc <- 2*3^(1/3)*pi^(1/6)*sd(xs)/n^(1/3) # Scott interval width
+hsc
+nclassSC <- ceiling(R/hsc) # number of subintervals
+nclassSC
+bpSC <- min(xs) + hsc*0:nclassSC # breakpoints
+bpSC
+par(mfrow = c(1,2))
+scottD <- hist(xs, breaks = bpSC, main = "Scott Definition", col = "pink")
+scottadj <- hist(xs, breaks = "Scott", main = "Scott Adjusted", col = "blue")
+```
+

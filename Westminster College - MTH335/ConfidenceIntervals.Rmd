@@ -1,0 +1,67 @@
+---
+title: "Confidence Intervals"
+output: pdf_document
+date: "2023-12-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+n = 36; mu = 100; sigma = 18; conf.level = 0.95
+alpha = 1-conf.level
+
+xbar <- mean(rnorm(n, mu, sigma))
+lower <- xbar - qnorm(1-alpha/2)*sigma/sqrt(n)
+upper <- xbar + qnorm(1-alpha/2)*sigma/sqrt(n)
+
+int <- c(lower, upper)
+int
+```
+
+```{r}
+n = 36; mu = 100; sigma = 18; conf.level = 0.95; sims = 100
+alpha = 1-conf.level
+
+lower <- numeric(sims)
+upper <- numeric(sims)
+
+for (i in 1:sims){
+  xbar <- mean(rnorm(n, mu, sigma))
+  lower[i] <- xbar - qnorm(1-alpha/2)*sigma/sqrt(n)
+  upper[i] <- xbar + qnorm(1-alpha/2)*sigma/sqrt(n)
+}
+int <- cbind(lower, upper)
+head(int)
+```
+
+
+```{r}
+sims <- 100; n <- 36; mu <- 100; sigma <- 18; conf.level <- 0.95
+alpha <- 1 - conf.level
+CL <- conf.level*100
+lower <- numeric(sims)
+upper <- numeric(sims)
+for (i in 1:sims) {
+  xbar <- mean(rnorm(n, mu, sigma))
+  lower[i] <- xbar - qnorm(1-alpha/2)*sigma/sqrt(n)
+  upper[i] <- xbar + qnorm(1-alpha/2)*sigma/sqrt(n)
+}
+plot(lower, type = "n", ylim = c(min(lower), max(upper)), xlab = " ", ylab = " ")
+for (i in 1:sims){
+  low <- lower[i]
+  high <- upper[i]
+  if (low < mu & high > mu) {
+    segments(i, low, i, high)
+  } else if (low > mu & high > mu) {
+    segments(i, low, i, high, col = "red", lwd = 5)
+  } else {
+    segments(i, low, i, high, col = "blue", lwd = 5)
+  }
+}  
+abline(h = mu)
+
+
+```
+

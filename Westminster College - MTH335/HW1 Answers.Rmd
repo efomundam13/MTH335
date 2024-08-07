@@ -1,0 +1,228 @@
+---
+title: "HW1"
+output: html_document
+date: "2023-09-06"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Problem 8
+```{r prob8}
+site <- "http://www.stat.berkeley.edu/users/statlabs/data/babies.data"
+babies <- read.table(file = url(site), header = TRUE) #header = true tells R that the first row are the category names
+```
+
+8a) Replace all missing values with NA
+```{r}
+#summary(babies)
+babies$bwt[babies$bwt == 999] = NA
+babies$gestation[babies$gestation == 999] = NA
+babies$parity[babies$parity == 9] = NA
+babies$age[babies$age == 99] = NA
+babies$height[babies$height == 99] = NA
+babies$weight[babies$weight == 9] = NA
+#summary(babies)
+```
+
+8b) Clean the dataset
+```{r}
+babies_clean <- na.omit(babies)
+```
+
+8c) How many missing values are there for gestation, age, height, weight, and smoke respectively. 
+How many rows of babies have no missing values, one missing value, two missing values, and three missing values, respectively? 
+```{r}
+summary(babies) # gives missing values for each column
+
+babies$na_count <- apply(is.na(babies), 1, sum) #counts NAs in each row
+no_na <- with(babies, bwt[na_count == 0])
+print(paste0("rows with no na = ", length(no_na)))
+one_na <- with(babies, bwt[na_count == 1]) #store all rows with 1 NA
+print(paste0("rows with one na = ",length(one_na))) # count number of rows with 1NA
+two_na <- with(babies, bwt[na_count == 2])
+print(paste0("rows with two na = ", length(two_na)))
+three_na <- with(babies, bwt[na_count == 3])
+print(paste0("rows with three na = ",length(three_na)))
+
+```
+
+8d) Use complete.cases to create a clean data set that removes subjects if any observations are unknown. Show that all the values in clean are the same as clean2
+```{r}
+babies_clean2 <- babies[complete.cases(babies), ]
+head(babies_clean2, n=3)
+head(babies_clean, n=3)
+all.equal(babies_clean[,1:7], babies_clean2)
+```
+8e) Sort values by bwt, gestation, and age. Store values in BGA and show last 6 rows
+```{r}
+bga <- babies_clean[order(babies_clean$bwt, babies_clean$gestation, babies_clean$age), ]
+tail(bga, n = 6)
+```
+
+8f) Store data from clean in working directory as a csv file
+```{r}
+write.csv(babies_clean, file = "/Users/muchowh/Documents/Teaching/Fall23/MTH 335/babies_clean.csv")
+```
+
+8g) What percent of women in clean are pregnant with their first child and do not smoke?
+```{r}
+#prob <- with(babies_clean, parity == 0 & smoke == 0)
+prob <- with(babies_clean, bwt[parity == 0 & smoke == 0])
+
+length(prob)/nrow(babies_clean)*100
+```
+
+Problem 9
+9a) use row.names to define states as row names for the dataframe
+```{r}
+wheat <- WHEATUSA2004
+row.names(wheat) <- wheat$states
+```
+
+9b) Define a new variable called ha for surface area given in hectares
+```{r}
+wheat$ha <- wheat$acres*0.40468564224
+head(wheat, n = 3)
+```
+
+9c) Sort file according to harvested surface area in acres
+```{r}
+wheat <- wheat[order(wheat$acres), ]
+```
+
+9d) Which states fall in the top 10% of states for harvested surface area?
+```{r}
+tail(wheat, nrow(wheat)*0.1)
+```
+
+9e) Save in a new file wheatusa.txt and remove wheat from workspace. Check that contents can be recovered from wheatusa.txt
+```{r}
+write.csv(wheat, file = "/Users/muchowh/Documents/Teaching/Fall23/MTH 335/wheatusa.txt")
+rm(wheat)
+wheatusa<-read.csv(file = "/Users/muchowh/Documents/Teaching/Fall23/MTH 335/wheatusa.txt")
+head(wheatusa)
+```
+
+9f) Use command write.table to store contents of wheatusa in a file named wheatusa.dat. Explain differences between dump and write.table
+```{r}
+write.table(wheatusa, file = "/Users/muchowh/Documents/Teaching/Fall23/MTH 335/wheatusa.dat")
+#dump(wheatusa, file = "/Users/muchowh/Documents/Teaching/Fall23/MTH 335/wheatusa.txt") # dump takes in a character vector, not great for dataframes with multiple columns
+```
+
+9g) Find the total harvested surface area in acres for the bottom 10% of the states.
+```{r}
+sum(wheatusa$acres[nrow(wheatusa)*0.1])
+```
+
+Chapter 2
+
+1) Load the MASS package
+```{r}
+library(MASS)
+```
+
+1a) Enter command help(package = "MASS") and read about functions and data
+```{r}
+help(package = "MASS")
+```
+
+1b) What does description in the help file say about lqs()? 
+```{r}
+help(lqs, package = "MASS")
+```
+
+1c) What command shows loaded packages?
+```{r}
+(.packages())
+```
+
+2) Load Cars93 from MASS
+```{r}
+cars <- Cars93
+head(cars, n=3)
+```
+
+2a) Create density histograms for min.price, max.price, weight, and length with diff color for each
+```{r}
+par(mfrow = c(2,2))
+hist(cars$Min.Price, breaks = 10, col = "pink", freq = FALSE, main = "Minimum Price of Cars")
+hist(cars$Max.Price, col = "blue", freq = FALSE, main = "Maximum Price of Cars")
+hist(cars$Weight, col = "green", freq = FALSE, main = "Weight of Cars")
+hist(cars$Length, col = "purple", freq = FALSE, main = "Length of Cars")
+
+```
+
+2b) Superimpose estimated density curves over the histograms
+
+```{r}
+par(mfrow = c(2,2))
+with(data = cars, hist(Min.Price, breaks = 10, col = "pink", freq = FALSE, main = "Minimum Price of Cars"))
+with(data = cars, lines(density(Min.Price), col = "red", lwd = 2))
+
+with(data = cars, hist(Max.Price, col = "blue", freq = FALSE, main = "Maximum Price of Cars"))
+with(data = cars, lines(density(Max.Price), col = "red", lwd = 2))
+
+with(data = cars, hist(Weight, col = "green", freq = FALSE, main = "Weight of Cars"))
+with(data = cars, lines(density(Weight), col = "red", lwd = 2))
+
+hist(cars$Length, col = "purple", freq = FALSE, main = "Length of Cars")
+lines(density(cars$Length), col = "red", lwd = 2)
+
+```
+
+2c) Use bwplot from alttice to create a box and whiskers plot of price for every type of vehicle according to the drive train. 
+```{r}
+library(lattice)
+with(data = cars, bwplot(Price~Type))
+```
+
+2d) Create a graph similar to the one in (c) using functions from ggplot2
+```{r}
+ggplot(cars, aes(x = Type, y = Price)) +
+  geom_boxplot()
+```
+
+8) Titanic3
+8a) Determine the fraction of survivors (survived) according to class (pclass)
+```{r}
+titanic <- TITANIC3
+p1 <- xtabs(~pclass + survived, data = titanic)
+prop.table(p1, 1)
+```
+
+8b) Compute the fraction of survivors according to class and gender. Did men in first class or women in third class have a higher survival rate? 
+```{r}
+p2 <- xtabs(~pclass + survived + sex, data = titanic)
+prop.table(p2, 1)
+```
+
+8c) How would you characterize the distribution of age?
+```{r}
+hist(titanic$age) #right skew
+```
+
+8d) Were the median and mean ages for females who survived higher or lower than for females who did not survive? Report the median and mean ages as well as an appropriate measure of spread for each statistic. 
+
+```{r}
+fem_age <- with(titanic, age[survived == 1 & sex == "female"])
+mal_age <- with(titanic, age[survived==1 & sex == "male"])
+
+mean(fem_age, na.rm = TRUE)
+median(fem_age, na.rm = TRUE)
+
+mean(mal_age, na.rm = TRUE)
+median(mal_age, na.rm = TRUE)
+
+```
+8f) What was the age of the youngest female in first class who survived?
+```{r}
+firstfem<-with(titanic, age[survived == 1 & sex == "female" & pclass == "1st"])
+young <- firstfem[order(firstfem)]
+head(young) #14 years
+```
+
+8g) Do the data suggest class warfare, male chivalry, or some combination of both characterized the final hours aboard the Titanic? 
+Yep. Both. 
+

@@ -1,0 +1,172 @@
+---
+title: "HW1"
+author: "Manny Fomundam"
+date: "2023-09-06"
+output: pdf_document
+---
+
+```{r 1.21:8}
+# (a): Read data from the URL and store it in BABIES
+url <- "http://www.stat.berkeley.edu/users/statlabs/data/babies.data"
+BABIES <- read.table(url, header = TRUE)
+
+# (b): Recode missing values
+BABIES$bwt[BABIES$bwt == 999] <- NA
+BABIES$gestation[BABIES$gestation == 999] <- NA
+BABIES$parity[BABIES$parity == 9] <- NA
+BABIES$age[BABIES$age == 99] <- NA
+BABIES$height[BABIES$height == 99] <- NA
+BABIES$weight[BABIES$weight == 999] <- NA
+BABIES$smoke[BABIES$smoke == 9] <- NA
+
+# (c): Create a "clean" data frame using na.omit()
+CLEAN <- na.omit(BABIES)
+
+# (d): Count missing values and rows with missing values
+missing_gestation <- sum(is.na(BABIES$gestation))
+missing_age <- sum(is.na(BABIES$age))
+missing_height <- sum(is.na(BABIES$height))
+missing_weight <- sum(is.na(BABIES$weight))
+missing_smoke <- sum(is.na(BABIES$smoke))
+
+rows_no_missing <- sum(complete.cases(BABIES))
+rows_one_missing <- sum(rowSums(is.na(BABIES)) == 1)
+rows_two_missing <- sum(rowSums(is.na(BABIES)) == 2)
+rows_three_missing <- sum(rowSums(is.na(BABIES)) == 3)
+
+# (e): Create CLEAN2 using complete.cases()
+CLEAN2 <- BABIES[complete.cases(BABIES), ]
+
+# (f) Sort values in CLEAN by bwt, gestation, and age
+BGA <- CLEAN[order(CLEAN$bwt, CLEAN$gestation, CLEAN$age), ]
+tail(BGA)
+
+# (g) Store CLEAN in a CSV file
+write.csv(CLEAN, "CLEAN.csv")
+
+# (h) Calculate the percentage of women with parity = 0 and no smoking
+percent_first_child_nonsmoker <- sum(CLEAN$parity == 0 & CLEAN$smoke == 0) / nrow(CLEAN) * 100
+
+```
+
+```{r 1.21:9}
+# Load the PASWR2 package.
+library(PASWR2)
+
+# (a): Define states as row names
+row.names(WHEATUSA2004) <- WHEATUSA2004$states
+
+# (b): Create a new variable 'ha' for surface area in hectares
+WHEATUSA2004$ha <- WHEATUSA2004$acres * 0.40468564224
+
+# (c): Sort the data frame by harvested surface area in acres
+WHEATUSA2004 <- WHEATUSA2004[order(-WHEATUSA2004$acres), ]
+
+# (d): Find the states in the top 10% for harvested surface area
+top_10_percent_states <- head(WHEATUSA2004$states, nrow(WHEATUSA2004) * 0.1)
+
+# (e): Save the data frame to a text file
+write.table(WHEATUSA2004, "WHEATUSA.txt", sep = "\t", quote = FALSE)
+
+# (f): Remove WHEATUSA2004 from the workspace
+rm(WHEATUSA2004)
+
+# (g): Check if the data can be recovered from the saved file
+recovered_data <- read.table("WHEATUSA.txt", header = TRUE, sep = "\t")
+
+# (h): Calculate the total harvested surface area in acres for the bottom 10% of states
+bottom_10_percent_states <- tail(WHEATUSA2004$states, nrow(WHEATUSA2004) * 0.1)
+total_bottom_10_percent_acres <- sum(WHEATUSA2004$acres[WHEATUSA2004$states %in% bottom_10_percent_states])
+
+```
+
+```{r 2.10:1}
+# (a) 
+help(package="MASS")
+
+# (b)
+help(lqs, package="MASS")
+# Fit a regression to the good points in the dataset, thereby achieving a regression estimator with a high breakdown point. lmsreg and ltsreg are compatibility wrappers.
+
+# (c)
+library()
+```
+
+```{r 2.10:2}
+# Load the necessary packages
+library(MASS)
+library(ggplot2)
+library(lattice)
+
+# Load the Cars93 dataset
+data("Cars93", package = "MASS")
+
+# (a) Create density histograms for Min.Price, Max.Price, Weight, and Length
+par(mfrow=c(2,2))  # Set up a 2x2 grid for the plots
+
+# Create density histograms for Min.Price, Max.Price, Weight, and Length
+hist(Cars93$Min.Price, main="Min.Price Histogram", xlab="Min.Price", col="navy")
+hist(Cars93$Max.Price, main="Max.Price Histogram", xlab="Max.Price", col="white")
+hist(Cars93$Weight, main="Weight Histogram", xlab="Weight", col="gray")
+hist(Cars93$Length, main="Length Histogram", xlab="Length", col="black")
+
+# (b) Superimpose estimated density curves over the histograms
+lines(density(Cars93$Min.Price), col="navy")
+lines(density(Cars93$Max.Price), col="white")
+lines(density(Cars93$Weight), col="gray")
+lines(density(Cars93$Length), col="black")
+
+# (c) Create a box and whiskers plot of Price by drive train using lattice
+bwplot(Price ~ Type | DriveTrain, data = Cars93, main = "Price by Drive Train")
+
+# (d) Create a similar graph using ggplot2
+ggplot(Cars93, aes(x = DriveTrain, y = Price)) +
+  geom_boxplot() +
+  facet_wrap(~Type) +
+  labs(title = "Price by Drive Train") +
+  theme_minimal()
+
+```
+
+```{r 2.10:8}
+# Load the PASWR2 package and access the TITANIC3 data frame if you haven't already.
+library(PASWR2)
+
+# Step 1: Determine the fraction of survivors according to class (pclass)
+survival_by_class <- table(TITANIC3$pclass, TITANIC3$survived)
+fraction_survivors_by_class <- survival_by_class[1, 2] / sum(survival_by_class[1, ]) # First class
+fraction_survivors_by_class
+
+# Step 2: Compute the fraction of survivors according to class and gender
+survival_by_class_gender <- table(TITANIC3$pclass, TITANIC3$sex, TITANIC3$survived)
+fraction_survivors_first_class_men <- survival_by_class_gender[1, "male", 2] / sum(survival_by_class_gender[1, "male", ])
+fraction_survivors_third_class_women <- survival_by_class_gender[3, "female", 2] / sum(survival_by_class_gender[3, "female", ])
+
+# Step 3: Characterize the distribution of age
+summary(TITANIC3$age) # This provides a summary of age statistics
+
+# Step 4: Calculate median and mean ages for females who survived and didn't survive
+median_age_survived_females <- median(TITANIC3$age[TITANIC3$sex == "female" & TITANIC3$survived == 1], na.rm = TRUE)
+mean_age_survived_females <- mean(TITANIC3$age[TITANIC3$sex == "female" & TITANIC3$survived == 1], na.rm = TRUE)
+median_age_not_survived_females <- median(TITANIC3$age[TITANIC3$sex == "female" & TITANIC3$survived == 0], na.rm = TRUE)
+mean_age_not_survived_females <- mean(TITANIC3$age[TITANIC3$sex == "female" & TITANIC3$survived == 0], na.rm = TRUE)
+
+# Step 5: Calculate median and mean ages for males who survived and didn't survive
+median_age_survived_males <- median(TITANIC3$age[TITANIC3$sex == "male" & TITANIC3$survived == 1], na.rm = TRUE)
+mean_age_survived_males <- mean(TITANIC3$age[TITANIC3$sex == "male" & TITANIC3$survived == 1], na.rm = TRUE)
+median_age_not_survived_males <- median(TITANIC3$age[TITANIC3$sex == "male" & TITANIC3$survived == 0], na.rm = TRUE)
+mean_age_not_survived_males <- mean(TITANIC3$age[TITANIC3$sex == "male" & TITANIC3$survived == 0], na.rm = TRUE)
+
+# Step 6: Find the age of the youngest female in first class who survived
+youngest_female_in_first_class_survived <- min(TITANIC3$age[TITANIC3$sex == "female" & TITANIC3$pclass == 1 & TITANIC3$survived == 1], na.rm = TRUE)
+
+# (g)
+# A stacked bar plot of survival by class and gender
+library(ggplot2)
+ggplot(TITANIC3, aes(x = pclass, fill = survived)) +
+  geom_bar(position = "stack") +
+  facet_wrap(~sex)
+
+# More men than woman survived the titanic
+# Both had the least survival members from their second class and the most from the 3rd class and middle class has the middle amount of survivals.
+```

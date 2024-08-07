@@ -1,0 +1,29 @@
+---
+title: "Untitled"
+output: html_document
+date: "2023-10-27"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+f <- function(x){
+  y <- 3/4 *(1-x^2)
+  y[x < -1|x>1] <- 0
+  return(y)
+}
+
+F <- function(x){
+  y <- -x^3/4 + 3*x/4 + 1/2
+  y[x<= -1] <- 0
+  y[x>1] <- 1
+  return(y)
+}
+p <- ggplot(data.frame(x = c(-2,2)), aes(x=x))
+p+stat_function(fun=f)
+p+stat_function(fun=F)
+```
+
